@@ -2,7 +2,7 @@ name: Build help documents
 on:
   push
 jobs:
-  build-and-deploy:
+  build-help-resource:
     runs-on: ubuntu-latest
     steps:
     - name: Get current branch name.
