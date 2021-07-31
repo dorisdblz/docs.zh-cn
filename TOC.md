@@ -1,7 +1,7 @@
 # 目录
 
 + [DorisDB介绍](/introduction/DorisDB_intro.md)
-+ [快速开始](/quick_start/Quick_start.md)
++ 快速开始
   + [DorisDB基本概念](/quick_start/Basic.md)
   + [DorisDB的系统架构](/quick_start/Architecture.md)
   + [DorisDB的手动部署](/quick_start/Installation.md)
@@ -9,7 +9,7 @@
   + [数据导入和查询](/quick_start/Loading_and_query.md)
   + [测试常见问题](/quick_start/FAQ.md)
   + [下一步](/quick_start/Next.md)
-+ [表设计](/table_design/Table_design.md)
++ 表设计
   + [理解DorisDB表设计](/table_design/Table_intro.md)
   + [数据模型介绍](/table_design/Table_modeling.md)
   + [数据分布](/table_design/Data_distribution.md)
@@ -17,7 +17,7 @@
   + [物化视图](/table_design/Materialized_view.md)
   + [bitmap索引](/table_design/Bitmap_index.md)
   + [Bloomfilter索引](/table_design/Bloomfilter_index.md)
-+ [数据导入](/loading/Loading.md)
++ 数据导入
   + [导入总览](/loading/Loading_intro.md)
   + [Broker Load](/loading/BrokerLoad.md)
   + [Spark Load](/loading/SparkLoad.md)
@@ -28,10 +28,10 @@
   + [Json数据导入](/loading/Json_loading.md)
   + [flink-connector-dorisdb](/loading/Flink-dorisdb-connector.md)
   + [DataX-dorisdb-writer](/loading/DataX-dorisdb-writer.md)
-+ [数据提取](/unloading/Unloading.md)
++ 数据提取
   + [Export数据导出](/unloading/Export.md)
   + [Spark-connector](/unloading/Spark_connector.md)
-+ [使用DorisDB](/using_dorisdb/Using_DorisDB.md)
++ 使用DorisDB
   + [用Bitmap实现精确去重](/using_dorisdb/Using_bitmap.md)
   + [用HLL实现近似去重](/using_dorisdb/Using_HLL.md)
   + [物化视图](/using_dorisdb/Materialized_view.md)
@@ -40,27 +40,27 @@
   + [数组使用](/using_dorisdb/Using_array.md)
   + [窗口函数](/using_dorisdb/Window_function.md)
   + [CBO优化器](/using_dorisdb/Cost_based_optimizer.md)
-+ [参考手册](/reference/Reference.md)
-  + [SQL参考](/reference/SQL_reference.md)
++ 参考手册
+  + SQL参考
     + [用户账户管理](/reference/Account_reference.md)
     + [集群管理](/reference/Cluster_reference.md)
     + [DDL](/reference/DDL.md)
     + [DML](/reference/DML.md)
     + [辅助命令](/reference/Auxiliary.md)
-  + [函数参考](/reference/Function_reference.md)
+  + 函数参考
     + [日期函数](/reference/Date_functions.md)
     + [地理位置函数](/reference/Geo_functions.md)
     + [字符串函数](/reference/String_functions.md)
     + [聚合函数](/reference/Aggregation_functions.md)
     + [窗口函数](/reference/Window_functions.md)
     + [Bitmap函数](/reference/Bitmap_functions.md)
-+ [管理手册](/administration/Administration_manual.md)
++ 管理手册
   + [集群部署](/administration/Deployment.md)
   + [集群管理](/administration/Cluster_administration.md)
   + [配置参数](/administration/Configuration.md)
   + [扩容缩容](/administration/Scale_up_down.md)
   + [备份与恢复](/administration/Backup_and_restore.md)
-  + [数据恢复](/administration/Recovery.md)
+  + 数据恢复
     + [数据删除恢复](/administration/Data_recovery.md)
     + [元数据恢复](/administration/Metadata_recovery.md)
   + [副本管理](/administration/Rplica.md)
@@ -69,9 +69,10 @@
   + [监控报警](/administration/Monitor_and_Alert.md)
   + [用户权限](/administration/User_privilege.md)
   + [认证方式](/administration/Authentication.md)
-  + [资源管理](/administration/Resource_management.md)
+  + 资源管理
     + [查询管理](/administration/Query_management.md)
     + [黑名单管理](/administration/Blacklist.md)
     + [内存管理](/administration/Memory_management.md)
     + [负载均衡](/administration/Load_balance.md)
-+ [性能测试](/benchmarking/Benchmarking.md)
++ 性能测试
+  + [SSB性能测试](/benchmarking/SSB_Benchmarking.md)
