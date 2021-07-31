@@ -9,8 +9,8 @@ jobs:
     - name: Check out code
       uses: actions/checkout@master
     - name: markdownlint-cli
-      uses: nosborn/github-action-markdown-cli@v2.0.0
+      uses: articulate/actions-markdownlint@v1
       with:
-        files: .
-        config_file: ".markdownlint.yaml"
-        ignore_files: "assets/*"
+        config: .markdownlint.yaml
+        files: './**/*.md'
+        ignore: assets
