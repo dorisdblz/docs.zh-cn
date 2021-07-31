@@ -14,4 +14,3 @@ jobs:
         config: .markdownlint.yaml
         files: './**/*.md'
         ignore: assets
-        version: 0.28.1
