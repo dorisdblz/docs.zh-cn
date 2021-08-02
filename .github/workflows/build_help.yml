@@ -23,7 +23,7 @@ jobs:
         git config --global user.email 'open@dorisdb.com'
         repo=$(git remote get-url origin)
         repoNames=(${repo//\./ })
-        locale=${repoNames[${#repoNames[@]}-2]}
+        locale=${repoNames[${#repoNames[@]}-1]}
         mv help-resource.zip ../
         cd ..
         git clone https://${{ secrets.DOCS_HELP_USER }}:${{ secrets.DOCS_HELP_TOKEN }}@github.com/DorisDB/docs-help-resources.git
