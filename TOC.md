@@ -1,7 +1,7 @@
 # 目录
 
 + [DorisDB介绍](/introduction/DorisDB_intro.md)
-+ 快速开始1
++ 快速开始
   + [DorisDB基本概念](/quick_start/Basic.md)
   + [DorisDB的系统架构](/quick_start/Architecture.md)
   + [DorisDB的手动部署](/quick_start/Installation.md)
