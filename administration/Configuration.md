@@ -246,7 +246,6 @@ echo 1 | sudo tee /proc/sys/vm/overcommit_memory
 
 ~~~shell
 echo 'madvise' | sudo tee /sys/kernel/mm/transparent_hugepage/enabled
-•
 ~~~
 
 * **Swappiness**
@@ -283,7 +282,7 @@ echo none | sudo tee /sys/block/vdb/queue/scheduler
 
 网络
 
-请至少使用10 GB网络，1GB网络也能工作，但是会导致达不到预期性能。可以使用iperf测试系统带宽，确实是否是10GB网络。
+请至少使用10 GB网络，1GB网络也能工作，但是会导致达不到预期性能。可以使用iperf测试系统带宽，确认是否是10GB网络。
 
 文件系统
 
