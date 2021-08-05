@@ -54,7 +54,7 @@
     + [聚合函数](/reference/Aggregation_functions.md)
     + [窗口函数](/reference/Window_functions.md)
     + [Bitmap函数](/reference/Bitmap_functions.md)
-+ [管理手册](/administration/Administration_guide.md)
++ 管理手册
   + [集群部署](/administration/Deployment.md)
   + [集群管理](/administration/Cluster_administration.md)
   + [配置参数](/administration/Configuration.md)
