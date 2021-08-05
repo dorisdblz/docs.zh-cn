@@ -3,8 +3,8 @@
 + [DorisDB介绍](/introduction/DorisDB_intro.md)
 + 快速开始
   + [DorisDB基本概念](/quick_start/Basic.md)
-  + [DorisDB的系统架构](/quick_start/Architecture.md)
-  + [DorisDB的手动部署](/quick_start/Installation.md)
+  + [DorisDB系统架构](/quick_start/Architecture.md)
+  + [DorisDB手动部署](/quick_start/Installation.md)
   + [数据流和控制流](/quick_start/Data_control_flow.md)
   + [数据导入和查询](/quick_start/Loading_and_query.md)
   + [测试常见问题](/quick_start/FAQ.md)
@@ -37,7 +37,7 @@
   + [物化视图](/using_dorisdb/Materialized_view.md)
   + [Colocation Join](/using_dorisdb/Colocation_join.md)
   + [外部表](/using_dorisdb/External_table.md)
-  + [数组使用](/using_dorisdb/Using_array.md)
+  + [数组](/using_dorisdb/Array.md)
   + [窗口函数](/using_dorisdb/Window_function.md)
   + [CBO优化器](/using_dorisdb/Cost_based_optimizer.md)
 + 参考手册
@@ -54,7 +54,7 @@
     + [聚合函数](/reference/Aggregation_functions.md)
     + [窗口函数](/reference/Window_functions.md)
     + [Bitmap函数](/reference/Bitmap_functions.md)
-+ 管理手册
++ [管理手册](/administration/Administration_guide.md)
   + [集群部署](/administration/Deployment.md)
   + [集群管理](/administration/Cluster_administration.md)
   + [配置参数](/administration/Configuration.md)
