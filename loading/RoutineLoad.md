@@ -43,15 +43,15 @@ Routine Load 是一种例行导入方式，DorisDB通过这种方式支持从Kaf
 
 ~~~sql
 CREATE ROUTINE LOAD [database.][job_name] ON [table_name]
-  [COLUMNS TERMINATED BY "column_separator" ,]
-  [COLUMNS (col1, col2, ...) ,]
-  [WHERE where_condition ,]
-  [PARTITION (part1, part2, ...)]
-  [PROPERTIES ("key" = "value", ...)]
-  FROM [DATA_SOURCE]
-  [(data_source_properties1 = 'value1', 
-   data_source_properties2 = 'value2', 
-   ...)]
+    [COLUMNS TERMINATED BY "column_separator" ,]
+    [COLUMNS (col1, col2, ...) ,]
+    [WHERE where_condition ,]
+    [PARTITION (part1, part2, ...)]
+    [PROPERTIES ("key" = "value", ...)]
+    FROM [DATA_SOURCE]
+    [(data_source_properties1 = 'value1', 
+    data_source_properties2 = 'value2', 
+    ...)]
 ~~~
 
 **示例：**
@@ -64,13 +64,13 @@ COLUMNS TERMINATED BY ",",
 COLUMNS (event_time, channel, user, is_anonymous, is_minor, is_new, is_robot, is_unpatrolled, delta, added, deleted)
 PROPERTIES
 (
-  "desired_concurrent_number"="1",
-  "max_error_number"="1000"
+    "desired_concurrent_number"="1",
+    "max_error_number"="1000"
 )
 FROM KAFKA
 (
-  "kafka_broker_list"= "localhost:9092",
-  "kafka_topic" = "doris-load"
+    "kafka_broker_list"= "localhost:9092",
+    "kafka_topic" = "doris-load"
 );
 ~~~
 

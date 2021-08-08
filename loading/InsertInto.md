@@ -114,25 +114,25 @@ mysql> CREATE DATABASE IF NOT EXISTS load_test;
 mysql> USE load_test;
 mysql> CREATE TABLE insert_wiki_edit
 (
- event_time DATETIME,
- channel VARCHAR(32) DEFAULT '',
- user VARCHAR(128) DEFAULT '',
- is_anonymous TINYINT DEFAULT '0',
- is_minor TINYINT DEFAULT '0',
- is_new TINYINT DEFAULT '0',
- is_robot TINYINT DEFAULT '0',
- is_unpatrolled TINYINT DEFAULT '0',
- delta INT SUM DEFAULT '0',
- added INT SUM DEFAULT '0',
- deleted INT SUM DEFAULT '0'
+    event_time DATETIME,
+    channel VARCHAR(32) DEFAULT '',
+    user VARCHAR(128) DEFAULT '',
+    is_anonymous TINYINT DEFAULT '0',
+    is_minor TINYINT DEFAULT '0',
+    is_new TINYINT DEFAULT '0',
+    is_robot TINYINT DEFAULT '0',
+    is_unpatrolled TINYINT DEFAULT '0',
+    delta INT SUM DEFAULT '0',
+    added INT SUM DEFAULT '0',
+    deleted INT SUM DEFAULT '0'
 )
 AGGREGATE KEY(event_time, channel, user, is_anonymous, is_minor, is_new, is_robot, is_unpatrolled)
 PARTITION BY RANGE(event_time)
 (
- PARTITION p06 VALUES LESS THAN ('2015-09-12 06:00:00'),
- PARTITION p12 VALUES LESS THAN ('2015-09-12 12:00:00'),
- PARTITION p18 VALUES LESS THAN ('2015-09-12 18:00:00'),
- PARTITION p24 VALUES LESS THAN ('2015-09-13 00:00:00')
+    PARTITION p06 VALUES LESS THAN ('2015-09-12 06:00:00'),
+    PARTITION p12 VALUES LESS THAN ('2015-09-12 12:00:00'),
+    PARTITION p18 VALUES LESS THAN ('2015-09-12 18:00:00'),
+    PARTITION p24 VALUES LESS THAN ('2015-09-13 00:00:00')
 )
 DISTRIBUTED BY HASH(user) BUCKETS 10
 PROPERTIES("replication_num" = "1");

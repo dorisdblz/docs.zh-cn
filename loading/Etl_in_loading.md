@@ -24,9 +24,9 @@ DorisDB能够在数据导入时完成数据转化的操作。这样在数据源�
 
 ~~~sql
 CREATE TABLE event (
-  `event_date` DATE,
-  `event_type` TINYINT,
-  `user_id` BIGINT
+    `event_date` DATE,
+    `event_type` TINYINT,
+    `user_id` BIGINT
 )
 DISTRIBUTED BY HASH(user_id) BUCKETS 3;
 ~~~
@@ -60,11 +60,11 @@ CSV 格式的文件中的列，本来是没有命名的，通过 **columns**，�
 
 ~~~sql
 LOAD LABEL test.label_load (
-  DATA INFILE("hdfs://{HDFS_HOST}:{HDFS_PORT}/tmp/zc/doris/data/date=*/*")
-  INTO TABLE `event`
-  COLUMNS TERMINATED BY ","
-  FORMAT AS "csv"
-  (user_id, user_gender, event_date, event_type)
+    DATA INFILE("hdfs://{HDFS_HOST}:{HDFS_PORT}/tmp/zc/doris/data/date=*/*")
+    INTO TABLE `event`
+    COLUMNS TERMINATED BY ","
+    FORMAT AS "csv"
+    (user_id, user_gender, event_date, event_type)
 )
 WITH BROKER hdfs;
 ~~~
@@ -77,12 +77,12 @@ WITH BROKER hdfs;
 
 ~~~sql
 CREATE ROUTINE LOAD test.event_load ON event
-COLUMNS TERMINATED BY ",",
-COLUMNS(user_id, user_gender, event_date, event_type),
+    COLUMNS TERMINATED BY ",",
+    COLUMNS(user_id, user_gender, event_date, event_type),
 WHERE event_type = 1
 FROM KAFKA (
-  "kafka_broker_list" = "{KAFKA_BROKER_HOST}:{KAFKA_BROKER_PORT}",
-  "kafka_topic" = "event"
+    "kafka_broker_list" = "{KAFKA_BROKER_HOST}:{KAFKA_BROKER_PORT}",
+    "kafka_topic" = "event"
 );
 ~~~
 
@@ -95,10 +95,10 @@ FROM KAFKA (
 +------------+------------+---------+
 | event_date | event_type | user_id |
 +------------+------------+---------+
-| 2020-05-22 |     1 |   576 |
-| 2020-05-20 |     1 |   354 |
-| 2020-05-21 |     2 |   465 |
-| 2020-05-23 |     2 |   687 |
+| 2020-05-22 |          1 |     576 |
+| 2020-05-20 |          1 |     354 |
+| 2020-05-21 |          2 |     465 |
+| 2020-05-23 |          2 |     687 |
 +------------+------------+---------+
 ~~~
 
@@ -112,9 +112,9 @@ FROM KAFKA (
 
 ~~~sql
 CREATE TABLE event (
-  `event_date` DATE,
-  `event_type` TINYINT,
-  `user_id` BIGINT
+    `event_date` DATE,
+    `event_type` TINYINT,
+    `user_id` BIGINT
 )
 DISTRIBUTED BY HASH(user_id) BUCKETS 3;
 ~~~
@@ -142,11 +142,11 @@ DISTRIBUTED BY HASH(user_id) BUCKETS 3;
 
 ~~~sql
 LOAD LABEL test.label_load (
-  DATA INFILE("hdfs://{HDFS_HOST}:{HDFS_PORT}/tmp/zc/doris/data/date=*/*")
-  INTO TABLE `event`
-  COLUMNS TERMINATED BY ","
-  FORMAT AS "csv"
-  WHERE event_type = 1
+    DATA INFILE("hdfs://{HDFS_HOST}:{HDFS_PORT}/tmp/zc/doris/data/date=*/*")
+    INTO TABLE `event`
+    COLUMNS TERMINATED BY ","
+    FORMAT AS "csv"
+    WHERE event_type = 1
 )
 WITH BROKER hdfs;
 ~~~
@@ -160,8 +160,8 @@ CREATE ROUTINE LOAD test.event_load ON event
 COLUMNS TERMINATED BY ",",
 WHERE event_type = 1
 FROM KAFKA (
-  "kafka_broker_list" = "{KAFKA_BROKER_HOST}:{KAFKA_BROKER_PORT}",
-  "kafka_topic" = "event"
+    "kafka_broker_list" = "{KAFKA_BROKER_HOST}:{KAFKA_BROKER_PORT}",
+    "kafka_topic" = "event"
 );
 ~~~
 
@@ -172,8 +172,8 @@ FROM KAFKA (
 +------------+------------+---------+
 | event_date | event_type | user_id |
 +------------+------------+---------+
-| 2020-05-20 |   1 |  354 |
-| 2020-05-22 |   1 |  576 |
+| 2020-05-20 |          1 |     354 |
+| 2020-05-22 |          1 |     576 |
 +------------+------------+---------+
 ~~~
 
@@ -185,10 +185,10 @@ FROM KAFKA (
 
 ~~~sql
 CREATE TABLE dim_date (
-  `date` DATE,
-  `year` INT,
-  `month` TINYINT,
-  `day` TINYINT
+    `date` DATE,
+    `year` INT,
+    `month` TINYINT,
+    `day` TINYINT
 )
 DISTRIBUTED BY HASH(date) BUCKETS 1;
 ~~~
@@ -222,12 +222,12 @@ DISTRIBUTED BY HASH(date) BUCKETS 1;
 
 ~~~sql
 LOAD LABEL test.label_load (
-  DATA INFILE("hdfs://{HDFS_HOST}:{HDFS_PORT}/tmp/zc/doris/data/date=*/*")
-  INTO TABLE `event`
-  COLUMNS TERMINATED BY ","
-  FORMAT AS "csv"
-  (date)
-  SET(year=year(date), month=month(date), day=day(date))
+    DATA INFILE("hdfs://{HDFS_HOST}:{HDFS_PORT}/tmp/zc/doris/data/date=*/*")
+    INTO TABLE `event`
+    COLUMNS TERMINATED BY ","
+    FORMAT AS "csv"
+    (date)
+    SET(year=year(date), month=month(date), day=day(date))
 )
 WITH BROKER hdfs;
 ~~~
@@ -238,11 +238,11 @@ WITH BROKER hdfs;
 
 ~~~sql
 CREATE ROUTINE LOAD test.event_load ON event
-COLUMNS TERMINATED BY ",",
-COLUMNS(date,year=year(date),month=month(date),day=day(date))
+    COLUMNS TERMINATED BY ",",
+    COLUMNS(date,year=year(date),month=month(date),day=day(date))
 FROM KAFKA (
-  "kafka_broker_list" = "{KAFKA_BROKER_HOST}:{KAFKA_BROKER_PORT}",
-  "kafka_topic" = "event"
+    "kafka_broker_list" = "{KAFKA_BROKER_HOST}:{KAFKA_BROKER_PORT}",
+    "kafka_topic" = "event"
 );
 ~~~
 
@@ -251,12 +251,12 @@ FROM KAFKA (
 ~~~SQL
 > SELECT * FROM dim_date;
 +------------+------+-------+------+
-| date  | year | month | day|
+| date       | year | month | day  |
 +------------+------+-------+------+
-| 2020-05-20 | 2020 |  5 | 20 |
-| 2020-05-21 | 2020 |  5 | 21 |
-| 2020-05-22 | 2020 |  5 | 22 |
-| 2020-05-23 | 2020 |  5 | 23 |
+| 2020-05-20 | 2020 |  5    | 20   |
+| 2020-05-21 | 2020 |  5    | 21   |
+| 2020-05-22 | 2020 |  5    | 22   |
+| 2020-05-23 | 2020 |  5    | 23   |
 +------------+------+-------+------+
 ~~~
 
@@ -270,9 +270,9 @@ FROM KAFKA (
 
 ~~~sql
 CREATE TABLE event (
-  `event_date` DATE,
-  `event_type` TINYINT,
-  `user_id` BIGINT
+    `event_date` DATE,
+    `event_type` TINYINT,
+    `user_id` BIGINT
 )
 DISTRIBUTED BY HASH(user_id) BUCKETS 3;
 ~~~
@@ -296,13 +296,13 @@ DISTRIBUTED BY HASH(user_id) BUCKETS 3;
 
 ~~~SQL
 LOAD LABEL test.label_load (
-  DATA INFILE("hdfs://{HDFS_HOST}:{HDFS_PORT}/tmp/doris/data/date=*/*")
-  INTO TABLE `event`
-  COLUMNS TERMINATED BY ","
-  FORMAT AS "csv"
-  (event_type, user_id)
-  COLUMNS FROM PATH AS (date)
-  SET(event_date = date)
+    DATA INFILE("hdfs://{HDFS_HOST}:{HDFS_PORT}/tmp/doris/data/date=*/*")
+    INTO TABLE `event`
+    COLUMNS TERMINATED BY ","
+    FORMAT AS "csv"
+    (event_type, user_id)
+    COLUMNS FROM PATH AS (date)
+    SET(event_date = date)
 )
 WITH BROKER hdfs;
 ~~~
@@ -316,9 +316,9 @@ WITH BROKER hdfs;
 +------------+------------+---------+
 | event_date | event_type | user_id |
 +------------+------------+---------+
-| 2020-05-22 |   1 |  576 |
-| 2020-05-20 |   1 |  354 |
-| 2020-05-21 |   2 |  465 |
-| 2020-05-23 |   2 |  687 |
+| 2020-05-22 |          1 |     576 |
+| 2020-05-20 |          1 |     354 |
+| 2020-05-21 |          2 |     465 |
+| 2020-05-23 |          2 |     687 |
 +------------+------------+---------+
 ~~~

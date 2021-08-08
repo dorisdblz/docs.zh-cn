@@ -129,35 +129,35 @@ PROPERTIES 是 Spark 资源相关参数，如下：
 CREATE EXTERNAL RESOURCE "spark0"
 PROPERTIES
 (
- "type" = "spark",
- "spark.master" = "yarn",
- "spark.submit.deployMode" = "cluster",
- "spark.jars" = "xxx.jar,yyy.jar",
- "spark.files" = "/tmp/aaa,/tmp/bbb",
- "spark.executor.memory" = "1g",
- "spark.yarn.queue" = "queue0",
- "spark.hadoop.yarn.resourcemanager.address" = "127.0.0.1:9999",
- "spark.hadoop.fs.defaultFS" = "hdfs://127.0.0.1:10000",
- "working_dir" = "hdfs://127.0.0.1:10000/tmp/doris",
- "broker" = "broker0",
- "broker.username" = "user0",
- "broker.password" = "password0"
+    "type" = "spark",
+    "spark.master" = "yarn",
+    "spark.submit.deployMode" = "cluster",
+    "spark.jars" = "xxx.jar,yyy.jar",
+    "spark.files" = "/tmp/aaa,/tmp/bbb",
+    "spark.executor.memory" = "1g",
+    "spark.yarn.queue" = "queue0",
+    "spark.hadoop.yarn.resourcemanager.address" = "127.0.0.1:9999",
+    "spark.hadoop.fs.defaultFS" = "hdfs://127.0.0.1:10000",
+    "working_dir" = "hdfs://127.0.0.1:10000/tmp/doris",
+    "broker" = "broker0",
+    "broker.username" = "user0",
+    "broker.password" = "password0"
 );
 
 -- yarn HA cluster 模式
 CREATE EXTERNAL RESOURCE "spark1"
 PROPERTIES
 (
- "type" = "spark",
- "spark.master" = "yarn",
- "spark.submit.deployMode" = "cluster",
- "spark.hadoop.yarn.resourcemanager.ha.enabled" = "true",
- "spark.hadoop.yarn.resourcemanager.ha.rm-ids" = "rm1,rm2",
- "spark.hadoop.yarn.resourcemanager.hostname.rm1" = "host1",
- "spark.hadoop.yarn.resourcemanager.hostname.rm2" = "host2",
- "spark.hadoop.fs.defaultFS" = "hdfs://127.0.0.1:10000",
- "working_dir" = "hdfs://127.0.0.1:10000/tmp/doris",
- "broker" = "broker1"
+    "type" = "spark",
+    "spark.master" = "yarn",
+    "spark.submit.deployMode" = "cluster",
+    "spark.hadoop.yarn.resourcemanager.ha.enabled" = "true",
+    "spark.hadoop.yarn.resourcemanager.ha.rm-ids" = "rm1,rm2",
+    "spark.hadoop.yarn.resourcemanager.hostname.rm1" = "host1",
+    "spark.hadoop.yarn.resourcemanager.hostname.rm2" = "host2",
+    "spark.hadoop.fs.defaultFS" = "hdfs://127.0.0.1:10000",
+    "working_dir" = "hdfs://127.0.0.1:10000/tmp/doris",
+    "broker" = "broker1"
 );
 ~~~
 
@@ -233,31 +233,31 @@ FE底层通过执行yarn命令去获取正在运行的application的状态，以
 
 ~~~sql
 LOAD LABEL load_label
- (data_desc, ...)
+    (data_desc, ...)
 WITH RESOURCE resource_name 
 [resource_properties]
 [PROPERTIES (key1=value1, ... )]
 
 * load_label:
- db_name.label_name
+    db_name.label_name
 
 * data_desc:
- DATA INFILE ('file_path', ...)
- [NEGATIVE]
- INTO TABLE tbl_name
- [PARTITION (p1, p2)]
- [COLUMNS TERMINATED BY separator ]
- [(col1, ...)]
- [COLUMNS FROM PATH AS (col2, ...)]
- [SET (k1=f1(xx), k2=f2(xx))]
- [WHERE predicate]
- 
- DATA FROM TABLE hive_external_tbl
- [NEGATIVE]
- INTO TABLE tbl_name
- [PARTITION (p1, p2)]
- [SET (k1=f1(xx), k2=f2(xx))]
- [WHERE predicate]
+    DATA INFILE ('file_path', ...)
+    [NEGATIVE]
+    INTO TABLE tbl_name
+    [PARTITION (p1, p2)]
+    [COLUMNS TERMINATED BY separator ]
+    [(col1, ...)]
+    [COLUMNS FROM PATH AS (col2, ...)]
+    [SET (k1=f1(xx), k2=f2(xx))]
+    [WHERE predicate]
+
+    DATA FROM TABLE hive_external_tbl
+    [NEGATIVE]
+    INTO TABLE tbl_name
+    [PARTITION (p1, p2)]
+    [SET (k1=f1(xx), k2=f2(xx))]
+    [WHERE predicate]
 
 * resource_properties:
  (key2=value2, ...)
@@ -268,29 +268,29 @@ WITH RESOURCE resource_name
 ~~~sql
 LOAD LABEL db1.label1
 (
- DATA INFILE("hdfs://abc.com:8888/user/palo/test/ml/file1")
- INTO TABLE tbl1
- COLUMNS TERMINATED BY ","
- (tmp_c1,tmp_c2)
- SET
- (
- id=tmp_c2,
- name=tmp_c1
- ),
- DATA INFILE("hdfs://abc.com:8888/user/palo/test/ml/file2")
- INTO TABLE tbl2
- COLUMNS TERMINATED BY ","
- (col1, col2)
- where col1 > 1
+    DATA INFILE("hdfs://abc.com:8888/user/palo/test/ml/file1")
+    INTO TABLE tbl1
+    COLUMNS TERMINATED BY ","
+    (tmp_c1,tmp_c2)
+    SET
+    (
+    id=tmp_c2,
+    name=tmp_c1
+    ),
+    DATA INFILE("hdfs://abc.com:8888/user/palo/test/ml/file2")
+    INTO TABLE tbl2
+    COLUMNS TERMINATED BY ","
+    (col1, col2)
+    where col1 > 1
 )
 WITH RESOURCE 'spark0'
 (
- "spark.executor.memory" = "2g",
- "spark.shuffle.compress" = "true"
+    "spark.executor.memory" = "2g",
+    "spark.shuffle.compress" = "true"
 )
 PROPERTIES
 (
- "timeout" = "3600"
+    "timeout" = "3600"
 );
 ~~~
 
@@ -299,54 +299,54 @@ PROPERTIES
 * step 1: 新建hive资源
 
 ~~~sql
- CREATE EXTERNAL RESOURCE hive0
- properties
- ( 
- "type" = "hive",
- "hive.metastore.uris" = "thrift://0.0.0.0:8080"
- );
+CREATE EXTERNAL RESOURCE hive0
+properties
+( 
+    "type" = "hive",
+    "hive.metastore.uris" = "thrift://0.0.0.0:8080"
+);
  ~~~
 
 * step 2: 新建hive外部表
 
 ~~~sql
- CREATE EXTERNAL TABLE hive_t1
- (
- k1 INT,
- K2 SMALLINT,
- k3 varchar(50),
- uuid varchar(100)
- )
- ENGINE=hive
- properties
- ( 
- "resource" = "hive0",
- "database" = "tmp",
- "table" = "t1"
- );
+CREATE EXTERNAL TABLE hive_t1
+(
+    k1 INT,
+    K2 SMALLINT,
+    k3 varchar(50),
+    uuid varchar(100)
+)
+ENGINE=hive
+properties
+( 
+    "resource" = "hive0",
+    "database" = "tmp",
+    "table" = "t1"
+);
  ~~~
 
 * step 2: 提交load命令，要求导入的 DorisDB 表中的列必须在 hive 外部表中存在。
 
 ~~~sql
- LOAD LABEL db1.label1
- (
- DATA FROM TABLE hive_t1
- INTO TABLE tbl1
- SET
- (
-  uuid=bitmap_dict(uuid)
- )
- )
- WITH RESOURCE 'spark0'
- (
- "spark.executor.memory" = "2g",
- "spark.shuffle.compress" = "true"
- )
- PROPERTIES
- (
- "timeout" = "3600"
- );
+LOAD LABEL db1.label1
+(
+DATA FROM TABLE hive_t1
+INTO TABLE tbl1
+SET
+(
+    uuid=bitmap_dict(uuid)
+)
+)
+WITH RESOURCE 'spark0'
+(
+    "spark.executor.memory" = "2g",
+    "spark.shuffle.compress" = "true"
+)
+PROPERTIES
+(
+    "timeout" = "3600"
+);
  ~~~
 
 创建导入的详细语法执行 HELP SPARK LOAD 查看语法帮助。这里主要介绍 Spark load 的创建导入语法中参数意义和注意事项。
@@ -365,11 +365,11 @@ Spark资源需要提前配置到 DorisDB系统中并且赋予用户USAGE-PRIV权
 当用户有临时性的需求，比如增加任务使用的资源而修改 Spark configs，可以在这里设置，设置仅对本次任务生效，并不影响 DorisDB 集群中已有的配置。
 
  ~~~sql
- WITH RESOURCE 'spark0'
- (
- "spark.driver.memory" = "1g",
- "spark.executor.memory" = "3g"
- )
+WITH RESOURCE 'spark0'
+(
+    "spark.driver.memory" = "1g",
+    "spark.executor.memory" = "3g"
+)
  ~~~
 
 * **数据源为hive表时的导入**
@@ -429,7 +429,7 @@ LoadFinishTime: 2019-07-27 11:50:16
 
  显示作业的详细运行状态，包括导入文件的个数、总大小（字节）、子任务个数、已处理的原始行数等。如：
 
-~~~sql
+~~~json
  {"ScannedRows":139264,"TaskNumber":1,"FileNumber":1,"FileSize":940754064}
 ~~~
 
