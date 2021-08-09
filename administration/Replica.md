@@ -77,13 +77,13 @@ TabletChecker 作为常驻的后台进程，会定期检查所有分片的状态
 针对不同的状态，我们采用不同的修复方式：
 
 1. REPLICA_MISSING/REPLICA_RELOCATING
-2. 选择一个低负载的，可用的 BE 节点作为目的端。选择一个健康副本作为源端。clone 任务会从源端拷贝一个完整的副本到目的端。对于副本补齐，我们会直接选择一个可用的 BE 节点，而不考虑存储介质。
-3. VERSION_INCOMPLETE
-4. 选择一个相对完整的副本作为目的端。选择一个健康副本作为源端。clone 任务会从源端尝试拷贝缺失的版本到目的端的副本。
-5. REPLICA_MISSING_IN_CLUSTER
-6. 这种状态处理方式和 REPLICA_MISSING 相同。
-7. REDUNDANT
-8. 通常经过副本修复后，分片会有冗余的副本。我们选择一个冗余副本将其删除。冗余副本的选择遵从以下优先级：
+   选择一个低负载的，可用的 BE 节点作为目的端。选择一个健康副本作为源端。clone 任务会从源端拷贝一个完整的副本到目的端。对于副本补齐，我们会直接选择一个可用的 BE 节点，而不考虑存储介质。
+2. VERSION_INCOMPLETE
+   选择一个相对完整的副本作为目的端。选择一个健康副本作为源端。clone 任务会从源端尝试拷贝缺失的版本到目的端的副本。
+3. REPLICA_MISSING_IN_CLUSTER
+   这种状态处理方式和 REPLICA_MISSING 相同。
+4. REDUNDANT
+  通常经过副本修复后，分片会有冗余的副本。我们选择一个冗余副本将其删除。冗余副本的选择遵从以下优先级：
 
    * 副本所在 BE 已经下线
    * 副本已损坏
@@ -93,12 +93,12 @@ TabletChecker 作为常驻的后台进程，会定期检查所有分片的状态
    * 副本所在 cluster 不正确
    * 副本所在 BE 节点负载高
 
-9. FORCE_REDUNDANT
-10. 不同于 REDUNDANT，因为此时虽然 Tablet 有副本缺失，但是因为已经没有额外的可用节点用于创建新的副本了。所以此时必须先删除一个副本，以腾出一个可用节点用于创建新的副本。 删除副本的顺序同 REDUNDANT。
-11. COLOCATE_MISMATCH
-12. 从 Colocation Group 中指定的副本分布 BE 节点中选择一个作为目的节点进行副本补齐。
-13. COLOCATE_REDUNDANT
-14. 删除一个非 Colocation Group 中指定的副本分布 BE 节点上的副本。
+5. FORCE_REDUNDANT
+   不同于 REDUNDANT，因为此时虽然 Tablet 有副本缺失，但是因为已经没有额外的可用节点用于创建新的副本了。所以此时必须先删除一个副本，以腾出一个可用节点用于创建新的副本。 删除副本的顺序同 REDUNDANT。
+6. COLOCATE_MISMATCH
+   从 Colocation Group 中指定的副本分布 BE 节点中选择一个作为目的节点进行副本补齐。
+7. COLOCATE_REDUNDANT
+   删除一个非 Colocation Group 中指定的副本分布 BE 节点上的副本。
 
 DorisDB 在选择副本节点时，不会将同一个 Tablet 的副本部署在同一个 host 的不同 BE 上。保证了即使同一个 host 上的所有 BE 都挂掉，也不会造成全部副本丢失。
 
