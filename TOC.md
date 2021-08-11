@@ -93,6 +93,7 @@
       + [st_x](/sql-reference/sql-functions/spatial-functions/st_x.md)
       + [st_y](/sql-reference/sql-functions/spatial-functions/st_y.md)
     + 字符串函数
+      + [append_trailing_char_if_absent](/sql-reference/sql-functions/string-functions/append_trailing_char_if_absent.md)
       + [ascii](/sql-reference/sql-functions/string-functions/ascii.md)
       + [char_length](/sql-reference/sql-functions/string-functions/char_length.md)
       + [concat](/sql-reference/sql-functions/string-functions/concat.md)
@@ -120,6 +121,7 @@
       + [right](/sql-reference/sql-functions/string-functions/right.md)
       + [rpad](/sql-reference/sql-functions/string-functions/rpad.md)
       + [split_part](/sql-reference/sql-functions/string-functions/split_part.md)
+      + [starts_with](/sql-reference/sql-functions/string-functions/starts_with.md)
       + [strleft](/sql-reference/sql-functions/string-functions/strleft.md)
       + [strright](/sql-reference/sql-functions/string-functions/strright.md)
     + 聚合函数
