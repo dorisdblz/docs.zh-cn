@@ -17,7 +17,7 @@ RECOVER PARTITION partition_name FROM [db_name.]table_name;
 
 ## 重点说明
 
-1. 该操作仅能恢复之前一段时间内删除的元信息。默认为 1 天。（可通过fe.conf中catalog\_trash\_expire\_second参数配置）
+1. 该操作仅能恢复之前一段时间内删除的元信息。默认为 1 天。（可通过fe.conf中catalog_trash_expire_second参数配置）
 2. 如果删除元信息后新建立了同名同类型的元信息，则之前删除的元信息不能被恢复
 
 ## 样例

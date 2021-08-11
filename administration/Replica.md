@@ -137,7 +137,7 @@ TabletScheduler 里等待被调度的分片会根据状态不同，赋予不同�
 
 ADMIN REPAIR TABLE tbl [PARTITION (p1, p2, ...)];
 
-此命令告诉 TC，在扫描 Tablet 时，对需要优先修复的表或分区中的有问题的 Tablet，给予 VERY\_HIGH 的优先级。
+此命令告诉 TC，在扫描 Tablet 时，对需要优先修复的表或分区中的有问题的 Tablet，给予 VERY_HIGH 的优先级。
 
 > 注：此命令只是一个 hint，并不能保证一定能修复成功，且优先级也会随 TS 的调度而发生变化。并且当 Master FE 切换或重启后，这些信息都会丢失。
 
@@ -203,7 +203,7 @@ TabletScheduler 在每轮调度时，都会通过 LoadBalancer 来选择一定�
     +----------+-----------------------------+----------+--------------+----------+-----------+------------+--------------------+-----------------------+
     ~~~
 
-    其中 `UnhealthyTabletNum` 列显示了对应的 Database 中，有多少 Tablet 处于非健康状态。`InconsistentTabletNum` 列显示了对应的 Database 中，有多少 Tablet 处于副本不一致的状态。最后一行 `Total` 行对整个集群进行了统计。正常情况下 `UnhealthyTabletNum` 和 `InconsistentTabletNum` 应为0。如果不为零，可以进一步查看具体有哪些 Tablet。如上图中，UM\_TEST 数据库有 1 个 Tablet 状态不健康，则可以使用以下命令查看具体是哪一个 Tablet。
+    其中 `UnhealthyTabletNum` 列显示了对应的 Database 中，有多少 Tablet 处于非健康状态。`InconsistentTabletNum` 列显示了对应的 Database 中，有多少 Tablet 处于副本不一致的状态。最后一行 `Total` 行对整个集群进行了统计。正常情况下 `UnhealthyTabletNum` 和 `InconsistentTabletNum` 应为0。如果不为零，可以进一步查看具体有哪些 Tablet。如上图中，UM_TEST 数据库有 1 个 Tablet 状态不健康，则可以使用以下命令查看具体是哪一个 Tablet。
 
     `SHOW PROC '/statistic/5909381';`  
     其中 `5909381` 为对应的 DbId。
@@ -250,7 +250,7 @@ TabletScheduler 在每轮调度时，都会通过 LoadBalancer 来选择一定�
 
     上图展示了包括副本大小、行数、版本数量、所在数据路径等一些额外的信息。
 
-    > 注：这里显示的 `State` 列的内容不代表副本的健康状态，而是副本处于某种任务下的状态，比如 CLONE、SCHEMA\_CHANGE、ROLLUP 等。
+    > 注：这里显示的 `State` 列的内容不代表副本的健康状态，而是副本处于某种任务下的状态，比如 CLONE、SCHEMA_CHANGE、ROLLUP 等。
 
     此外，用户也可以通过以下命令，查看指定表或分区的副本分布情况，来检查副本分布是否均匀。  
     `ADMIN SHOW REPLICA DISTRIBUTION FROM tbl1;`
@@ -315,7 +315,7 @@ TabletScheduler 在每轮调度时，都会通过 LoadBalancer 来选择一定�
 
    * TabletId：等待调度的 Tablet 的 ID。一个调度任务只针对一个 Tablet
    * Type：任务类型，可以是 REPAIR（修复） 或 BALANCE（均衡）
-   * Status：该 Tablet 当前的状态，如 REPLICA\_MISSING（副本缺失）
+   * Status：该 Tablet 当前的状态，如 REPLICA_MISSING（副本缺失）
    * State：该调度任务的状态，可能为 PENDING/RUNNING/FINISHED/CANCELLED/TIMEOUT/UNEXPECTED
    * OrigPrio：初始的优先级
    * DynmPrio：当前动态调整后的优先级
