@@ -5,7 +5,7 @@
 建表时需要使用聚合模型，数据类型是 bitmap , 聚合函数是 bitmap_union
 
 ```SQL
-CREATE TABLE `pv_bitmap` (
+MySQL > CREATE TABLE `pv_bitmap` (
   `dt` int(11) NULL COMMENT "",
   `page` varchar(10) NULL COMMENT "",
   `user_id` bitmap BITMAP_UNION NULL COMMENT ""
@@ -18,7 +18,7 @@ DISTRIBUTED BY HASH(`dt`) BUCKETS 2;
 注：当数据量很大时，最好为高频率的 bitmap_union 查询建立对应的 rollup 表
 
 ```SQL
-ALTER TABLE pv_bitmap ADD ROLLUP pv (page, user_id);
+MySQL > ALTER TABLE pv_bitmap ADD ROLLUP pv (page, user_id);
 ```
 
 ## Data Load
@@ -48,31 +48,31 @@ cat data | curl --location-trusted -u user:passwd -T - -H "columns: dt,page,user
 id2 的列类型是 bitmap
 
 ```SQL
-insert into bitmap_table1 select id, id2 from bitmap_table2;
+MySQL > insert into bitmap_table1 select id, id2 from bitmap_table2;
 ```
 
 id2 的列类型是 bitmap
 
 ```SQL
-INSERT INTO bitmap_table1 (id, id2) VALUES (1001, to_bitmap(1000)), (1001, to_bitmap(2000));
+MySQL > INSERT INTO bitmap_table1 (id, id2) VALUES (1001, to_bitmap(1000)), (1001, to_bitmap(2000));
 ```
 
 id2 的列类型是 bitmap
 
 ```SQL
-insert into bitmap_table1 select id, bitmap_union(id2) from bitmap_table2 group by id;
+MySQL > insert into bitmap_table1 select id, bitmap_union(id2) from bitmap_table2 group by id;
 ```
 
 id2 的列类型是 int
 
 ```SQL
-insert into bitmap_table1 select id, to_bitmap(id2) from table;
+MySQL > insert into bitmap_table1 select id, to_bitmap(id2) from table;
 ```
 
 id2 的列类型是 String
 
 ```SQL
-insert into bitmap_table1 select id, bitmap_hash(id_string) from table;
+MySQL > insert into bitmap_table1 select id, bitmap_hash(id_string) from table;
 ```
 
 ## Data Query
@@ -97,23 +97,26 @@ bitmap_column_to_count 是 bitmap 类型的列，filter_column 是变化的维�
 计算 user_id 的去重值：
 
 ```SQL
-select bitmap_union_count(user_id) from pv_bitmap;
+MySQL > select bitmap_union_count(user_id) 
+from pv_bitmap;
 
-select bitmap_count(bitmap_union(user_id)) from pv_bitmap;
+MySQL > select bitmap_count(bitmap_union(user_id)) 
+from pv_bitmap;
 ```
 
 计算 id 的去重值：
 
 ```SQL
-select bitmap_union_int(id) from pv_bitmap;
+MySQL > select bitmap_union_int(id) 
+from pv_bitmap;
 ```
 
 计算 user_id 的 留存:
 
 ```SQL
-select intersect_count(user_id, page, 'meituan') as meituan_uv,
-intersect_count(user_id, page, 'waimai') as waimai_uv,
-intersect_count(user_id, page, 'meituan', 'waimai') as retention //在 'meituan' 和 'waimai' 两个页面都出现的用户数
+MySQL > select intersect_count(user_id, page, 'meituan') as meituan_uv,
+    intersect_count(user_id, page, 'waimai') as waimai_uv,
+    intersect_count(user_id, page, 'meituan', 'waimai') as retention //在 'meituan' 和 'waimai' 两个页面都出现的用户数
 from pv_bitmap
 where page in ('meituan', 'waimai');
 ```

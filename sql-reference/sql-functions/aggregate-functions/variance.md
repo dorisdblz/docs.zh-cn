@@ -11,15 +11,19 @@
 
 ## example
 
-```SQL
-MySQL > select variance(scan_rows) from log_statis group by datetime;
+```plain text
+MySQL > select variance(scan_rows) 
+from log_statis 
+group by datetime;
 +-----------------------+
 | variance(`scan_rows`) |
 +-----------------------+
 |    5.6183332881176211 |
 +-----------------------+
 
-MySQL > select var_pop(scan_rows) from log_statis group by datetime;
+MySQL > select var_pop(scan_rows) 
+from log_statis 
+group by datetime;
 +----------------------+
 | var_pop(`scan_rows`) |
 +----------------------+

@@ -11,8 +11,10 @@
 
 ## example
 
-```SQL
-MySQL > select sum(scan_rows) from log_statis group by datetime;
+```plain text
+MySQL > select sum(scan_rows) 
+from log_statis 
+group by datetime;
 +------------------+
 | sum(`scan_rows`) |
 +------------------+

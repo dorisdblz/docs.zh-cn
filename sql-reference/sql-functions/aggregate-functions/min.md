@@ -10,8 +10,10 @@
 
 ## example
 
-```SQL
-MySQL > select min(scan_rows) from log_statis group by datetime;
+```plain text
+MySQL > select min(scan_rows) 
+from log_statis 
+group by datetime;
 +------------------+
 | min(`scan_rows`) |
 +------------------+

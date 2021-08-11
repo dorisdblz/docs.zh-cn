@@ -10,8 +10,10 @@
 
 ## example
 
-```SQL
-MySQL > select stddev_samp(scan_rows) from log_statis group by datetime;
+```plain text
+MySQL > select stddev_samp(scan_rows) 
+from log_statis 
+group by datetime;
 +--------------------------+
 | stddev_samp(`scan_rows`) |
 +--------------------------+

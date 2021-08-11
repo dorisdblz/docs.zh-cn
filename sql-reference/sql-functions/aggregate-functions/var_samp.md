@@ -11,8 +11,10 @@
 
 ## example
 
-```SQL
-MySQL > select var_samp(scan_rows) from log_statis group by datetime;
+```plain text
+MySQL > select var_samp(scan_rows) 
+from log_statis 
+group by datetime;
 +-----------------------+
 | var_samp(`scan_rows`) |
 +-----------------------+
