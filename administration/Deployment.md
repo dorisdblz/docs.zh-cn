@@ -10,7 +10,7 @@ DorisDB的集群部署分为两种模式，第一种是使用命令部署，第�
 
 在所有需要部署DorisDB的节点上安装以下依赖:
 
-* JDK (1.8 以上)  并且配置好JAVA\_HOME (比如 `~/.bashrc` 中增加 `export` ).
+* JDK (1.8 以上)  并且配置好JAVA_HOME (比如 `~/.bashrc` 中增加 `export` ).
 * python (2.7 以上)
 * python-setuptools (`yum install setuptools or apt-get install setuptools`)
 
