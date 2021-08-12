@@ -44,7 +44,9 @@ alter system add backend 'be_host:be_heartbeat_service_port';
 
 * 运行命令查看BE状态
 
-`show proc '/backends';`
+~~~sql
+show proc '/backends';
+~~~
 
 ### BE缩容
 
