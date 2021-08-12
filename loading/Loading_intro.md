@@ -221,7 +221,7 @@ BE上单个Tablet的写入速度限制。默认是10，即10MB/s。根据Schema�
 2. 确定导入方式的协议：如果选择了Broker Load导入方式，则外部系统需要能使用MySQL协议定期提交和查看导入作业。
 3. 确定导入方式的类型：导入方式分为同步或异步。如果是异步导入方式，外部系统在提交创建导入后，必须调用查看导入命令，根据查看导入命令的结果来判断导入是否成功。
 4. 制定Label生成策略：Label生成策略需满足对每一批次数据唯一且固定的原则。
-5. 保证Excatly-Once：外部系统需要保证数据导入的At-Least-Once，DorisDB的Label机制可以保证数据导入的At-Most-Once。这样整体上就可以保证数据导入的Exactly-Once。
+5. 保证Exactly-Once：外部系统需要保证数据导入的At-Least-Once，DorisDB的Label机制可以保证数据导入的At-Most-Once。这样整体上就可以保证数据导入的Exactly-Once。
 
 ## 常见问题
 
