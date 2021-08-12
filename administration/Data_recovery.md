@@ -24,12 +24,18 @@ RECOVER PARTITION partition_name FROM [db_name.]table_name;
 
 1. 恢复名为 example_db 的 database
 
-    `RECOVER DATABASE example_db;`
+    ~~~sql
+    RECOVER DATABASE example_db;
+    ~~~
 
 2. 恢复名为 example_tbl 的 table
 
-    `RECOVER TABLE example_db.example_tbl;`
+    ~~~sql
+    RECOVER TABLE example_db.example_tbl;
+    ~~~
 
 3. 恢复表 example_tbl 中名为 p1 的 partition
 
-    `RECOVER PARTITION p1 FROM example_tbl;`
+    ~~~sql
+    RECOVER PARTITION p1 FROM example_tbl;
+    ~~~
