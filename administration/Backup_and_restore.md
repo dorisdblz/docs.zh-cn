@@ -1,6 +1,6 @@
 # 备份与恢复
 
-DorisDB 支持将当前数据以文件的形式，通过 broker 备份到远端存储系统中（Broker 是 DorisDB 集群中一种可选进程，主要用于支持 DorisDB 读写远端存储上的文件和目录，具体请参考 [Broker文档](../loading/BrokerLoad.md）。之后可以通过恢复命令，从远端存储系统中将数据恢复到任意 DorisDB 集群。通过这个功能，DorisDB 可以支持将数据定期的进行快照备份。也可以通过这个功能，在不同集群间进行数据迁移。
+DorisDB 支持将当前数据以文件的形式，通过 broker 备份到远端存储系统中（Broker 是 DorisDB 集群中一种可选进程，主要用于支持 DorisDB 读写远端存储上的文件和目录，具体请参考[Broker Load文档](../loading/BrokerLoad.md)。之后可以通过恢复命令，从远端存储系统中将数据恢复到任意 DorisDB 集群。通过这个功能，DorisDB 可以支持将数据定期的进行快照备份。也可以通过这个功能，在不同集群间进行数据迁移。
 
 使用该功能，需要部署对应远端存储的 broker，如 HDFS 等。可以通过 SHOW BROKER; 查看当前部署的 broker。
 
