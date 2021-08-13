@@ -322,42 +322,6 @@ select count(*) from profile_wos_p7;
 
 ### 配置
 
-* fe配置文件路径为fe/conf，如果需要自定义hadoop集群的配置可以在该目录下添加配置文件，例如：hdfs集群采用了高可用的nameservice，需要将hadoop集群中的hdfs-site.xml放到该目录下。
-* be配置文件路径为be/conf，如果需要自定义hadoop集群的配置可以在该目录下添加配置文件，例如：hdfs集群采用了高可用的nameservice，需要将hadoop集群中的hdfs-site.xml放到该目录下。
-* be所在的机器也需要配置JAVA_HOME，一定要配置成**jdk环境**，不能配置成jre环境
-* hive环境需要配置元数据变更自动通知，如果不配置，hive中有新数据导入/新增分区等操作，dorisdb中不会感知到。配置如下：
-
-  ~~~xml
-  <property>
-    <name>hive.metastore.event.db.notification.api.auth</name>
-    <value>false</value>
-    <description>
-      Should metastore do authorization against database notification related APIs such as get_next_notification.
-      If set to true, then only the superusers in proxy settings have the permission
-    </description>
-  </property>
-  <property>
-    <name>hive.metastore.notifications.add.thrift.objects</name>
-    <value>true</value>
-  </property>
-  <property>
-    <name>hive.metastore.alter.notifications.basic</name>
-    <value>false</value>
-  </property>
-  <property>
-    <name>hive.metastore.dml.events</name>
-    <value>true</value>
-  </property>
-  <property>
-    <name>hive.metastore.transactional.event.listeners</name>
-    <value>org.apache.hive.hcatalog.listener.DbNotificationListener</value>
-  </property>
-  <property>
-    <name>hive.metastore.event.db.listener.timetolive</name>
-    <value>172800s</value>
-  </property>
-  <property>
-    <name>hive.metastore.server.max.message.size</name>
-    <value>858993459</value>
-  </property>
-  ~~~
+* fe配置文件路径为fe/conf，如果需要自定义hadoop集群的配置可以在该目录下添加配置文件，例如：hdfs集群采用了高可用的nameservice，需要将hadoop集群中的hdfs-site.xml放到该目录下；如果hdfs配置了viewfs，需要将core-site.xml放到该目录下。
+* be配置文件路径为be/conf，如果需要自定义hadoop集群的配置可以在该目录下添加配置文件，例如：hdfs集群采用了高可用的nameservice，需要将hadoop集群中的hdfs-site.xml放到该目录下；如果hdfs配置了viewfs，需要将core-site.xml放到该目录下。
+* be所在的机器也需要配置JAVA_HOME，一定要配置成**jdk环境**，不能配置成jre环境。
