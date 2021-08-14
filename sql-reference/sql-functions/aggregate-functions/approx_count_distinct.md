@@ -14,11 +14,11 @@
 
 ```plain text
 MySQL > select approx_count_distsinct(query_id) from log_statis group by datetime;
-+-----------------+
++-----------------------------------+
 | approx_count_distinct(`query_id`) |
-+-----------------+
-| 17721           |
-+-----------------+
++-----------------------------------+
+| 17721                             |
++-----------------------------------+
 ```
 
 ## keyword

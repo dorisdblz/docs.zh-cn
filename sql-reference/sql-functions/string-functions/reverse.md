@@ -21,9 +21,9 @@ MySQL > SELECT REVERSE('hello');
 
 MySQL > SELECT REVERSE('你好');
 +------------------+
-| REVERSE('你好')   |
+| REVERSE('你好')  |
 +------------------+
-| 好你              |
+| 好你             |
 +------------------+
 1 row in set (0.00 sec)
 ```

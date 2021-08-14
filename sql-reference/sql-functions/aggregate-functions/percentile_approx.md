@@ -19,7 +19,7 @@ compression参数未指定或设置的值在[2048, 10000]范围外，以10000的
 MySQL > select `table`, percentile_approx(cost_time,0.99) 
 from log_statis 
 group by `table`;
-+---------------------+---------------------------+
++----------+--------------------------------------+
 | table    | percentile_approx(`cost_time`, 0.99) |
 +----------+--------------------------------------+
 | test     |                                54.22 |
