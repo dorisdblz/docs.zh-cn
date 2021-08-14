@@ -330,8 +330,6 @@ HASH JOIN 节点会显示对应原因：`colocate: false, reason: group is not s
 
 以上参数可以动态修改，设置方式请参阅 `HELP ADMIN SHOW CONFIG;` 和 `HELP ADMIN SET CONFIG;`。
 
-<br>
-
 * **disable\_colocate\_join**
 
     可以通过改该变量在 session 粒度关闭 colocate join功能。

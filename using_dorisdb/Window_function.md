@@ -212,7 +212,7 @@ DENSE_RANK() OVER(partition_by_clause order_by_clause)
 下例展示了按照property列分组对x列排名：
 
 ~~~SQL
- select x, y,
+select x, y,
     dense_rank() over(partition by x order by y) as rank
 from int_t;
 ~~~
@@ -459,13 +459,13 @@ where property in ('prime','square');
 ~~~Plain Text
 | x | property | local minimum |
 |---|----------|---------------|
-| 7 | prime | 5             |
-| 5 | prime | 3             |
-| 3 | prime | 2             |
-| 2 | prime | 2             |
-| 9 | square | 2             |
-| 4 | square | 1             |
-| 1 | square | 1             |
+| 7 | prime    | 5             |
+| 5 | prime    | 3             |
+| 3 | prime    | 2             |
+| 2 | prime    | 2             |
+| 9 | square   | 2             |
+| 4 | square   | 1             |
+| 1 | square   | 1             |
 
 ~~~
 

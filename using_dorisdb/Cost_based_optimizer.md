@@ -19,7 +19,7 @@
 enable_statistic_collect = true
 ~~~
 
-然后重启FE
+然后重启FE。
 
 <br>
 
@@ -27,20 +27,20 @@ enable_statistic_collect = true
 
 > 注意：启用新优化器之前，建议先开启统计信息自动抽样收集 1 ~ 2天。
 
-全局粒度开启
+全局粒度开启：
 
 ~~~SQL
 set global enable_cbo = true;
 ~~~
 
-Session 粒度开启
+Session 粒度开启：
 
 ~~~SQL
 set enable_cbo = true;
 
 ~~~
 
-单个 SQL 粒度开启
+单个 SQL 粒度开启：
 
 ~~~SQL
 SELECT /*+ SET_VAR(enable_cbo = true) */ * from table;
