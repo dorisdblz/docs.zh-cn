@@ -57,11 +57,13 @@ curl -v --location-trusted -u root: \
 
 导入后结果
 
+~~~plain text
 +------+------+
 | k1   | k2   |
 +------+------+
 |  100 |    2 |
 +------+------+
+~~~
 
 对于缺失的列 如果列的定义是nullable，那么会补上NULL，也可以通过ifnull补充默认值
 
@@ -69,9 +71,9 @@ curl -v --location-trusted -u root: \
 
 ~~~json
 [
-   {"k1": 1, "k2": "a"},
-   {"k1": 2},
-   {"k1": 3, "k2": "c"},
+    {"k1": 1, "k2": "a"},
+    {"k1": 2},
+    {"k1": 3, "k2": "c"},
 ]
 ~~~
 
@@ -86,6 +88,7 @@ curl -v --location-trusted -u root: \
 
 导入后结果：
 
+~~~plain text
 +------+------+
 | k1   | k2   |
 +------+------+
@@ -95,6 +98,7 @@ curl -v --location-trusted -u root: \
 +------+------+
 |    3 | c    |
 +------+------+
+~~~
   
 导入示例-2：
 
@@ -109,6 +113,7 @@ curl -v --location-trusted -u root: \
 
 导入后结果：
 
+~~~plain text
 +------+------+
 | k1   | k2   |
 +------+------+
@@ -118,6 +123,7 @@ curl -v --location-trusted -u root: \
 +------+------+
 |    3 | c    |
 +------+------+
+~~~
 
 ### Routine Load导入
 
@@ -244,89 +250,89 @@ canal.mq.transaction = false
 
 ~~~json
 {
-       "data": [{
-               "query_id": "3c7ebee321e94773-b4d79cc3f08ca2ac",
-               "conn_id": "34434",
-               "fe_host": "172.26.34.139",
-               "user": "zhaoheng",
-               "start_time": "2020-10-19 20:40:10.578",
-               "end_time": "2020-10-19 20:40:10",
-               "time_used": "1.0",
-               "state": "FINISHED",
-               "error_message": "",
-               "sql": "COMMIT",
-               "database": "",
-               "profile": "",
-               "plan": ""
-       }, {
-               "query_id": "7ff2df7551d64f8e-804004341bfa63ad",
-               "conn_id": "34432",
-               "fe_host": "172.26.34.139",
-               "user": "zhaoheng",
-               "start_time": "2020-10-19 20:40:10.566",
-               "end_time": "2020-10-19 20:40:10",
-               "time_used": "0.0",
-               "state": "FINISHED",
-               "error_message": "",
-               "sql": "COMMIT",
-               "database": "",
-               "profile": "",
-               "plan": ""
-       }, {
-               "query_id": "3a4b35d1c1914748-be385f5067759134",
-               "conn_id": "34440",
-               "fe_host": "172.26.34.139",
-               "user": "zhaoheng",
-               "start_time": "2020-10-19 20:40:10.601",
-               "end_time": "1970-01-01 08:00:00",
-               "time_used": "-1.0",
-               "state": "RUNNING",
-               "error_message": "",
-               "sql": " SELECT SUM(length(lo_custkey)), SUM(length(c_custkey)) FROM lineorder_str INNER JOIN customer_str ON lo_custkey=c_custkey;",
-               "database": "ssb",
-               "profile": "",
-               "plan": ""
-       }],
-       "database": "center_service_lihailei",
-       "es": 1603111211000,
-       "id": 122,
-       "isDdl": false,
-       "mysqlType": {
-               "query_id": "varchar(64)",
-               "conn_id": "int(11)",
-               "fe_host": "varchar(32)",
-               "user": "varchar(32)",
-               "start_time": "datetime(3)",
-               "end_time": "datetime",
-               "time_used": "double",
-               "state": "varchar(16)",
-               "error_message": "text",
-               "sql": "text",
-               "database": "varchar(128)",
-               "profile": "longtext",
-               "plan": "longtext"
-       },
-       "old": null,
-       "pkNames": ["query_id"],
-       "sql": "",
-       "sqlType": {
-               "query_id": 12,
-               "conn_id": 4,
-               "fe_host": 12,
-               "user": 12,
-               "start_time": 93,
-               "end_time": 93,
-               "time_used": 8,
-               "state": 12,
-               "error_message": 2005,
-               "sql": 2005,
-               "database": 12,
-               "profile": 2005,
-               "plan": 2005
-       },
-       "table": "query_record",
-       "ts": 1603111212015,
-       "type": "INSERT"
+    "data": [{
+        "query_id": "3c7ebee321e94773-b4d79cc3f08ca2ac",
+        "conn_id": "34434",
+        "fe_host": "172.26.34.139",
+        "user": "zhaoheng",
+        "start_time": "2020-10-19 20:40:10.578",
+        "end_time": "2020-10-19 20:40:10",
+        "time_used": "1.0",
+        "state": "FINISHED",
+        "error_message": "",
+        "sql": "COMMIT",
+        "database": "",
+        "profile": "",
+        "plan": ""
+    }, {
+        "query_id": "7ff2df7551d64f8e-804004341bfa63ad",
+        "conn_id": "34432",
+        "fe_host": "172.26.34.139",
+        "user": "zhaoheng",
+        "start_time": "2020-10-19 20:40:10.566",
+        "end_time": "2020-10-19 20:40:10",
+        "time_used": "0.0",
+        "state": "FINISHED",
+        "error_message": "",
+        "sql": "COMMIT",
+        "database": "",
+        "profile": "",
+        "plan": ""
+    }, {
+        "query_id": "3a4b35d1c1914748-be385f5067759134",
+        "conn_id": "34440",
+        "fe_host": "172.26.34.139",
+        "user": "zhaoheng",
+        "start_time": "2020-10-19 20:40:10.601",
+        "end_time": "1970-01-01 08:00:00",
+        "time_used": "-1.0",
+        "state": "RUNNING",
+        "error_message": "",
+        "sql": " SELECT SUM(length(lo_custkey)), SUM(length(c_custkey)) FROM lineorder_str INNER JOIN customer_str ON lo_custkey=c_custkey;",
+        "database": "ssb",
+        "profile": "",
+        "plan": ""
+    }],
+    "database": "center_service_lihailei",
+    "es": 1603111211000,
+    "id": 122,
+    "isDdl": false,
+    "mysqlType": {
+        "query_id": "varchar(64)",
+        "conn_id": "int(11)",
+        "fe_host": "varchar(32)",
+        "user": "varchar(32)",
+        "start_time": "datetime(3)",
+        "end_time": "datetime",
+        "time_used": "double",
+        "state": "varchar(16)",
+        "error_message": "text",
+        "sql": "text",
+        "database": "varchar(128)",
+        "profile": "longtext",
+        "plan": "longtext"
+    },
+    "old": null,
+    "pkNames": ["query_id"],
+    "sql": "",
+    "sqlType": {
+        "query_id": 12,
+        "conn_id": 4,
+        "fe_host": 12,
+        "user": 12,
+        "start_time": 93,
+        "end_time": 93,
+        "time_used": 8,
+        "state": 12,
+        "error_message": 2005,
+        "sql": 2005,
+        "database": 12,
+        "profile": 2005,
+        "plan": 2005
+    },
+    "table": "query_record",
+    "ts": 1603111212015,
+    "type": "INSERT"
 }
 ~~~
 
@@ -346,6 +352,7 @@ FROM KAFKA (
     "kafka_broker_list"= "172.26.92.141:9092",     
     "kafka_topic" = "databasename.query_record" 
 );
+~~~
 
 这样就可以完成数据从mysql到DorisDB的近实时同步。
 

@@ -2,7 +2,7 @@
 
 DorisWriter 插件实现了写入数据到 DorisDB 的目的表的功能。在底层实现上， DorisWriter 通过Stream load以csv或 json 格式导入数据至DorisDB。内部将`reader`读取的数据进行缓存后批量导入至DorisDB，以提高写入性能。总体数据流是 `source -> Reader -> DataX channel -> Writer -> DorisDB`。
 
-> [点击下载插件](http://dorisdb-release.oss-cn-zhangjiakou.aliyuncs.com/doriswriter.tar.gz?Expires=1985109490&OSSAccessKeyId=LTAI4GFYjbX9e7QmFnAAvkt8&Signature=IazN0HPfcA0gelD6mIDBME2Brpw%3D)
+[点击下载插件](http://dorisdb-release.oss-cn-zhangjiakou.aliyuncs.com/doriswriter.tar.gz?Expires=1985109490&OSSAccessKeyId=LTAI4GFYjbX9e7QmFnAAvkt8&Signature=IazN0HPfcA0gelD6mIDBME2Brpw%3D)
 
 请前往`https://github.com/alibaba/DataX`下载DataX完整包，然后将doriswriter插件放至 `datax/plugin/writer/` 目录下即可。
 

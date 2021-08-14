@@ -8,7 +8,7 @@ flink的用户想要将数据sink到DorisDB当中，但是flink官方只提供�
 
 将以下两部分内容加入`pom.xml`:
 
-```xml
+```plain text
 <repositories>
     <repository>
         <id>dorisdb-maven-releases</id>
@@ -21,7 +21,7 @@ flink的用户想要将数据sink到DorisDB当中，但是flink官方只提供�
 </repositories>
 ```
 
-```xml
+```plain text
 <dependency>
     <groupId>com.dorisdb.connector</groupId>
     <artifactId>flink-connector-doris</artifactId>
