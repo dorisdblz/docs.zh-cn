@@ -82,8 +82,8 @@ FROM KAFKA
 * **COLUMN TERMINATED子句**：选填。指定源数据文件中的列分隔符，分隔符默认为：\t。
 * **COLUMN子句** ：选填。用于指定源数据中列和表中列的映射关系。
 
-    * 映射列：如目标表有三列 col1, col2, col3 ，源数据有4列，其中第1、2、4列分别对应col2, col1, col3，则书写如下：COLUMNS (col2, col1, temp, col3), ，其中 temp 列为不存在的一列，用于跳过源数据中的第三列。
-    * 衍生列：除了直接读取源数据的列内容之外，DorisDB还提供对数据列的加工操作。假设目标表后加入了第四列 col4 ，其结果由 col1 + col2 产生，则可以书写如下：COLUMNS (col2, col1, temp, col3, col4 = col1 + col2),。
+  * 映射列：如目标表有三列 col1, col2, col3 ，源数据有4列，其中第1、2、4列分别对应col2, col1, col3，则书写如下：COLUMNS (col2, col1, temp, col3), ，其中 temp 列为不存在的一列，用于跳过源数据中的第三列。
+  * 衍生列：除了直接读取源数据的列内容之外，DorisDB还提供对数据列的加工操作。假设目标表后加入了第四列 col4 ，其结果由 col1 + col2 产生，则可以书写如下：COLUMNS (col2, col1, temp, col3, col4 = col1 + col2),。
 
 * **WHERE子句**：选填。用于指定过滤条件，可以过滤掉不需要的行。过滤条件可以指定映射列或衍生列。例如只导入 k1 大于 100 并且 k2 等于 1000 的行，则书写如下：WHERE k1 > 100 and k2 = 1000
 * **PARTITION子句**：选填。指定导入目标表的哪些 partition 中，如果不指定，则会自动导入到对应的 partition 中。
@@ -101,10 +101,10 @@ FROM KAFKA
 * **DATA_SOURCE**：指定数据源，请使用KAFKA。
 * **data_source_properties**: 指定数据源相关的信息。
 
-    * **kafka_broker_list**：Kafka 的 broker 连接信息，格式为 ip:host。多个broker之间以逗号分隔。
-    * **kafka_topic**：指定要订阅的 Kafka 的 topic。
-    * **kafka_partitions/kafka_offsets**：指定需要订阅的 kafka partition，以及对应的每个 partition 的起始 offset。
-    * **property**：此处的属性，主要是kafka相关的属性，功能等同于kafka shell中 "--property" 参数。
+  * **kafka_broker_list**：Kafka 的 broker 连接信息，格式为 ip:host。多个broker之间以逗号分隔。
+  * **kafka_topic**：指定要订阅的 Kafka 的 topic。
+  * **kafka_partitions/kafka_offsets**：指定需要订阅的 kafka partition，以及对应的每个 partition 的起始 offset。
+  * **property**：此处的属性，主要是kafka相关的属性，功能等同于kafka shell中 "--property" 参数。
 
 创建导入任务更详细的语法可以通过执行 HELP ROUTINE LOAD; 查看。
 
@@ -240,7 +240,7 @@ ReasonOfStateChanged: ErrorReason{code=errCode = 100, msg='User root pauses rout
     RESUME ROUTINE LOAD FOR [job_name];
     ~~~
 
-可以通过 `HELP RESUME ROUTINE LOAD; `命令查看帮助和示例。
+可以通过 `HELP RESUME ROUTINE LOAD;` 命令查看帮助和示例。
 
 ~~~sql
 MySQL [load_test]> RESUME ROUTINE LOAD FOR routine_load_wikipedia;
@@ -340,9 +340,9 @@ ReasonOfStateChanged:
 
 * Q：导入任务被PAUSE，报错Broker: Offset out of range
 
-    A：通过SHOW ROUTINE LOAD查看最新的offset，用Kafka客户端查看该offset有没有数据。
+  A：通过SHOW ROUTINE LOAD查看最新的offset，用Kafka客户端查看该offset有没有数据。
     
     可能原因：
 
-    * 导入时指定了未来的offset。
-    * 还没来得及导入，Kafka已经将该offset的数据清理。需要根据DorisDB的导入速度设置合理的log清理参数log.retention.hours、log.retention.bytes等。
+  * 导入时指定了未来的offset。
+  * 还没来得及导入，Kafka已经将该offset的数据清理。需要根据DorisDB的导入速度设置合理的log清理参数log.retention.hours、log.retention.bytes等。
