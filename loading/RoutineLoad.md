@@ -341,7 +341,7 @@ ReasonOfStateChanged:
 * Q：导入任务被PAUSE，报错Broker: Offset out of range
 
   A：通过SHOW ROUTINE LOAD查看最新的offset，用Kafka客户端查看该offset有没有数据。
-    
+
     可能原因：
 
   * 导入时指定了未来的offset。
