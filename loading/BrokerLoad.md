@@ -60,6 +60,7 @@ data_desc:
     [COLUMNS TERMINATED BY column_separator ]
     [FORMAT AS file_type]
     [(col1, ...)]
+    [COLUMNS FROM PATH AS (colx, ...)]
     [SET (k1=f1(xx), k2=f2(xx))]
     [WHERE predicate]
 
@@ -148,7 +149,7 @@ data_desc中还可以设置数据取反导入。这个功能适用的场景是�
 
 在data_desc中可以指定待导入表的partition信息。如果待导入数据不属于指定的partition则不会被导入。同时，不在指定Partition中的数据会被认为是“错误数据”。对于不想要导入、也不想要记录为“错误数据”的数据，可以使用下面介绍的 **where predicate** 来过滤。
 
-* **column separator**
+* column separator
 
 用于指定导入文件中的列分隔符，默认为 \t。
 
@@ -159,6 +160,18 @@ data_desc中还可以设置数据取反导入。这个功能适用的场景是�
 用于指定导入文件的类型，例如：parquet、orc、csv，默认为csv。
 
 parquet类型也可以通过文件后缀名 **.parquet** 或者 **.parq** 判断。
+
+* COLUMNS FROM PATH AS
+
+提取文件路径中的分区字段。
+
+例: 导入文件为/path/col_name=col_value/dt=20210101/file1，col_name/dt为表中的列，则设置如下语句可以将col_value、20210101分别导入到col_name、dt对应的列中。
+
+~~~SQL
+...
+(col1, col2)
+COLUMNS FROM PATH AS (col_name, dt)
+~~~
 
 * set column mapping
 
