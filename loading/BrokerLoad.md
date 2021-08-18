@@ -60,6 +60,7 @@ data_desc:
     [COLUMNS TERMINATED BY column_separator ]
     [FORMAT AS file_type]
     [(col1, ...)]
+    [COLUMNS FROM PATH AS (colx, ...)]
     [SET (k1=f1(xx), k2=f2(xx))]
     [WHERE predicate]
 
@@ -136,7 +137,9 @@ Broker load支持一次导入任务涉及多张表，每个Broker load导入任�
 
 可以使用的通配符有```? * [] {} ^```，[通配符使用规则参考](https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html#globStatus-org.apache.hadoop.fs.Path-)。
 
-例如通过 "hdfs://hdfs_host:hdfs_port/user/data/tablename/\*/\*" , 可以匹配tablename下所有分区内的所有文件， "hdfs://hdfs_host:hdfs_port/user/data/tablename/dt=202104\*/\*" , 可以匹配tablename下所有4月分区的所有文件，
+例如：
+通过 "hdfs://hdfs_host:hdfs_port/user/data/tablename/\*/\*" , 可以匹配tablename下所有分区内的所有文件；
+通过 "hdfs://hdfs_host:hdfs_port/user/data/tablename/dt=202104\*/\*" , 可以匹配tablename下所有4月分区的所有文件；
 
 * negative
 
@@ -146,7 +149,7 @@ data_desc中还可以设置数据取反导入。这个功能适用的场景是�
 
 在data_desc中可以指定待导入表的partition信息。如果待导入数据不属于指定的partition则不会被导入。同时，不在指定Partition中的数据会被认为是“错误数据”。对于不想要导入、也不想要记录为“错误数据”的数据，可以使用下面介绍的 **where predicate** 来过滤。
 
-* **column separator**
+* column separator
 
 用于指定导入文件中的列分隔符，默认为 \t。
 
@@ -157,6 +160,18 @@ data_desc中还可以设置数据取反导入。这个功能适用的场景是�
 用于指定导入文件的类型，例如：parquet、orc、csv，默认为csv。
 
 parquet类型也可以通过文件后缀名 **.parquet** 或者 **.parq** 判断。
+
+* COLUMNS FROM PATH AS
+
+提取文件路径中的分区字段。
+
+例: 导入文件为/path/col_name=col_value/dt=20210101/file1，col_name/dt为表中的列，则设置如下语句可以将col_value、20210101分别导入到col_name、dt对应的列中。
+
+~~~SQL
+...
+(col1, col2)
+COLUMNS FROM PATH AS (col_name, dt)
+~~~
 
 * set column mapping
 
@@ -319,14 +334,14 @@ LoadFinishTime: 2019-07-27 11:50:16
 
     A：如果是Parquet或者ORC格式的数据，需要保持文件头的列名与DorisDB表中的列名一致，如 :
 
-~~~sql
-(tmp_c1,tmp_c2)
-SET
-(
-   id=tmp_c2,
-   name=tmp_c1
-)
-~~~
+    ~~~sql
+    (tmp_c1,tmp_c2)
+    SET
+    (
+       id=tmp_c2,
+       name=tmp_c1
+    )
+    ~~~
 
 表示将Parquet或ORC文件中以(tmp_c1, tmp_c2)为列名的列，映射到DorisDB表中的(id, name)列。如果没有设置set, 则以column中的列作为映射。
 
@@ -336,46 +351,50 @@ SET
   
   A：其他长时间没有结束等问题，可以到 BE 的 `log/be.INFO` 中，搜索`kafka error` ，了解具体一些什么原因。
 
-* Q： 如何配置Hadoop HA
+* Q：如何配置Hadoop HA
   
   A：以下配置用于访问以 HA 模式部署的 HDFS 集群。
 
-  `dfs.nameservices`：指定 hdfs 服务的名字，自定义，如："dfs.nameservices" = "my_ha"。       `dfs.ha.namenodes.xxx`：自定义 namenode 的名字,多个名字以逗号分隔。其中 xxx 为`dfs.nameservices`中自定义的名字，如： "dfs.ha.namenodes.my_ha" = "my_nn"。
-  `dfs.namenode.rpc-address.xxx.nn`：指定 namenode 的rpc地址信息。其中 nn 表示`dfs.ha.namenodes.xxx`中配置的 namenode 的名字，如："dfs.namenode.rpc-address.my_ha.my_nn" = "host:port"。
+    `dfs.nameservices`：指定 hdfs 服务的名字，自定义，如："dfs.nameservices" = "my_ha"。
 
-  `dfs.client.failover.proxy.provider`：指定 client 连接 namenode 的 provider，默认为：org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider。
+    `dfs.ha.namenodes.xxx`：自定义 namenode 的名字,多个名字以逗号分隔。其中 xxx 为`dfs.nameservices`中自定义的名字，如： "dfs.ha.namenodes.my_ha" = "my_nn"。
 
-示例如下：
+    `dfs.namenode.rpc-address.xxx.nn`：指定 namenode 的rpc地址信息。其中 nn 表示`dfs.ha.namenodes.xxx`中配置的 namenode 的名字，如："dfs.namenode.rpc-address.my_ha.my_nn" = "host:port"。
 
-~~~sql
-(
-    "dfs.nameservices" = "my-ha",
-    "dfs.ha.namenodes.my-ha" = "my-namenode1, my-namenode2",
-    "dfs.namenode.rpc-address.my-ha.my-namenode1" = "nn1-host:rpc_port",
-    "dfs.namenode.rpc-address.my-ha.my-namenode2" = "nn2-host:rpc_port",
-    "dfs.client.failover.proxy.provider" = "org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider"
-)
+    `dfs.client.failover.proxy.provider`：指定 client 连接 namenode 的 provider，默认为：org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider。
 
-~~~
+    示例如下：
 
-HA 模式可以和前面两种认证方式组合，进行集群访问。如通过简单认证访问 HA HDFS：
+    ~~~sql
+    (
+        "dfs.nameservices" = "my-ha",
+        "dfs.ha.namenodes.my-ha" = "my-namenode1, my-namenode2",
+        "dfs.namenode.rpc-address.my-ha.my-namenode1" = "nn1-host:rpc_port",
+        "dfs.namenode.rpc-address.my-ha.my-namenode2" = "nn2-host:rpc_port",
+        "dfs.client.failover.proxy.provider" = "org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider"
+    )
 
-~~~sql
-(
-    "username"="user",
-    "password"="passwd",
-    "dfs.nameservices" = "my-ha",
-    "dfs.ha.namenodes.my-ha" = "my_namenode1, my_namenode2",
-    "dfs.namenode.rpc-address.my-ha.my-namenode1" = "nn1-host:rpc_port",
-    "dfs.namenode.rpc-address.my-ha.my-namenode2" = "nn2-host:rpc_port",
-    "dfs.client.failover.proxy.provider" = "org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider"
-)
+    ~~~
 
-~~~
+    HA 模式可以和前面两种认证方式组合，进行集群访问。如通过简单认证访问 HA HDFS：
 
-关于HDFS集群的配置可以写入hdfs-site.xml文件中，用户使用Broker进程读取HDFS集群的信息时，只需要填写集群的文件路径名和认证信息即可。
+    ~~~sql
+    (
+        "username"="user",
+        "password"="passwd",
+        "dfs.nameservices" = "my-ha",
+        "dfs.ha.namenodes.my-ha" = "my_namenode1, my_namenode2",
+        "dfs.namenode.rpc-address.my-ha.my-namenode1" = "nn1-host:rpc_port",
+        "dfs.namenode.rpc-address.my-ha.my-namenode2" = "nn2-host:rpc_port",
+        "dfs.client.failover.proxy.provider" = "org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider"
+    )
 
-* Q： 如何配置Hadoop ViewFS （fedoration）
+    ~~~
 
-A：  需要将 ViewFs 相关的配置 core-site.xml 和 hdfs-site.xml 拷贝到 broker/conf 目录中。
-如果有自定义的 FileSystem，需要将相关的 jar 拷贝到 broker/lib 目录中。
+    关于HDFS集群的配置可以写入hdfs-site.xml文件中，用户使用Broker进程读取HDFS集群的信息时，只需要填写集群的文件路径名和认证信息即可。
+
+* Q：如何配置Hadoop ViewFS （fedoration）
+
+  A：需要将 ViewFs 相关的配置 core-site.xml 和 hdfs-site.xml 拷贝到 broker/conf 目录中。
+
+    如果有自定义的 FileSystem，需要将相关的 jar 拷贝到 broker/lib 目录中。

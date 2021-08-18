@@ -148,9 +148,9 @@ Stream Load的默认超时为300秒，按照DorisDB目前最大的导入限速�
 
 ### 完整例子
 
-**数据情况：** 数据在客户端本地磁盘路径 /home/store-sales 中，导入的数据量约为 15GB，希望导入到数据库 bj-sales 的表 store-sales 中。
+**数据情况**：数据在客户端本地磁盘路径 /home/store-sales 中，导入的数据量约为 15GB，希望导入到数据库 bj-sales 的表 store-sales 中。
 
-**集群情况：**Stream Load 的并发数不受集群大小影响。
+**集群情况**：Stream Load 的并发数不受集群大小影响。
 
 * step1: 导入文件大小超过默认的最大导入大小10GB，所以要修改BE的配置文件BE.conf：
 

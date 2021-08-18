@@ -82,8 +82,8 @@ FROM KAFKA
 * **COLUMN TERMINATED子句**：选填。指定源数据文件中的列分隔符，分隔符默认为：\t。
 * **COLUMN子句** ：选填。用于指定源数据中列和表中列的映射关系。
 
-* 映射列：如目标表有三列 col1, col2, col3 ，源数据有4列，其中第1、2、4列分别对应col2, col1, col3，则书写如下：COLUMNS (col2, col1, temp, col3), ，其中 temp 列为不存在的一列，用于跳过源数据中的第三列。
-* 衍生列：除了直接读取源数据的列内容之外，DorisDB还提供对数据列的加工操作。假设目标表后加入了第四列 col4 ，其结果由 col1 + col2 产生，则可以书写如下：COLUMNS (col2, col1, temp, col3, col4 = col1 + col2),。
+  * 映射列：如目标表有三列 col1, col2, col3 ，源数据有4列，其中第1、2、4列分别对应col2, col1, col3，则书写如下：COLUMNS (col2, col1, temp, col3), ，其中 temp 列为不存在的一列，用于跳过源数据中的第三列。
+  * 衍生列：除了直接读取源数据的列内容之外，DorisDB还提供对数据列的加工操作。假设目标表后加入了第四列 col4 ，其结果由 col1 + col2 产生，则可以书写如下：COLUMNS (col2, col1, temp, col3, col4 = col1 + col2),。
 
 * **WHERE子句**：选填。用于指定过滤条件，可以过滤掉不需要的行。过滤条件可以指定映射列或衍生列。例如只导入 k1 大于 100 并且 k2 等于 1000 的行，则书写如下：WHERE k1 > 100 and k2 = 1000
 * **PARTITION子句**：选填。指定导入目标表的哪些 partition 中，如果不指定，则会自动导入到对应的 partition 中。
@@ -101,29 +101,33 @@ FROM KAFKA
 * **DATA_SOURCE**：指定数据源，请使用KAFKA。
 * **data_source_properties**: 指定数据源相关的信息。
 
-* **kafka_broker_list**：Kafka 的 broker 连接信息，格式为 ip:host。多个broker之间以逗号分隔。
-* **kafka_topic**：指定要订阅的 Kafka 的 topic。
-* **kafka_partitions/kafka_offsets**：指定需要订阅的 kafka partition，以及对应的每个 partition 的起始 offset。
-* **property**：此处的属性，主要是kafka相关的属性，功能等同于kafka shell中 "--property" 参数。
+  * **kafka_broker_list**：Kafka 的 broker 连接信息，格式为 ip:host。多个broker之间以逗号分隔。
+  * **kafka_topic**：指定要订阅的 Kafka 的 topic。
+  * **kafka_partitions/kafka_offsets**：指定需要订阅的 kafka partition，以及对应的每个 partition 的起始 offset。
+  * **property**：此处的属性，主要是kafka相关的属性，功能等同于kafka shell中 "--property" 参数。
 
 创建导入任务更详细的语法可以通过执行 HELP ROUTINE LOAD; 查看。
 
 ### 查看任务状态
 
-`# 显示 [database] 下，所有的例行导入作业（包括已停止或取消的作业）。结果为一行或多行。`
+* 显示 [database] 下，所有的例行导入作业（包括已停止或取消的作业）。结果为一行或多行。
 
-`USE [database];`
+    ~~~SQL
+    USE [database];
+    SHOW ALL ROUTINE LOAD;
+    ~~~
 
-`SHOW ALL ROUTINE LOAD;`
+* 显示 [database] 下，名称为 job_name 的当前正在运行的例行导入作业.
 
-`# 显示 [database] 下，名称为 job_name 的当前正在运行的例行导入作业`
-
-`SHOW ROUTINE LOAD FOR [database.][job_name];`
+    ~~~SQL
+    SHOW ROUTINE LOAD FOR [database.][job_name];
+    ~~~
 
 > 注意： DorisDB 只能查看当前正在运行中的任务，已结束和未开始的任务无法查看。
 
 查看任务状态的具体命令和示例可以通过 `HELP SHOW ROUTINE LOAD;` 命令查看。
-查看任务运行状态（包括子任务）的具体命令和示例可以通过 HELP SHOW ROUTINE LOAD TASK; 命令查看。
+
+查看任务运行状态（包括子任务）的具体命令和示例可以通过 `HELP SHOW ROUTINE LOAD TASK;` 命令查看。
 
 以上述创建的导入任务为示例，以下命令能查看当前正在运行的所有Routine Load任务：
 
@@ -194,9 +198,11 @@ ReasonOfStateChanged:
 
 * 暂停名称为 job_name 的例行导入任务。
 
-`PAUSE ROUTINE LOAD FOR [job_name];`
+    ~~~SQL
+    PAUSE ROUTINE LOAD FOR [job_name];
+    ~~~
 
-可以通过 HELP PAUSE ROUTINE LOAD;命令查看帮助和示例。
+可以通过 `HELP PAUSE ROUTINE LOAD;`命令查看帮助和示例。
 
 ~~~sql
 MySQL [load_test]> SHOW ROUTINE LOAD\G;
@@ -226,13 +232,15 @@ ReasonOfStateChanged: ErrorReason{code=errCode = 100, msg='User root pauses rout
 
 ### 恢复导入任务
 
-使用RESUME语句后，任务会短暂的进入NEED_SCHEDULE状态，表示任务正在重新调度，一段时间后会重新恢复至RUNING状态，继续导入数据。
+使用RESUME语句后，任务会短暂的进入 **NEED_SCHEDULE** 状态，表示任务正在重新调度，一段时间后会重新恢复至RUNING状态，继续导入数据。
 
 * 重启名称为 job_name 的例行导入任务。
 
-`RESUME ROUTINE LOAD FOR [job_name];`
+    ~~~SQL
+    RESUME ROUTINE LOAD FOR [job_name];
+    ~~~
 
-可以通过 HELP RESUME ROUTINE LOAD; 命令查看帮助和示例。
+可以通过 `HELP RESUME ROUTINE LOAD;` 命令查看帮助和示例。
 
 ~~~sql
 MySQL [load_test]> RESUME ROUTINE LOAD FOR routine_load_wikipedia;
@@ -285,7 +293,7 @@ ReasonOfStateChanged:
 ERROR: No query specified
 ~~~
 
-重启导入任务后，可以看到第一次查询任务时，State变更为NEED_SCHEDULE，表示任务正在重新调度；第二次查询任务时，State变更为RUNING，同时Statistic和Progress中的导入信息开始更新，继续导入数据。
+重启导入任务后，可以看到第一次查询任务时，State变更为**NEED_SCHEDULE**，表示任务正在重新调度；第二次查询任务时，State变更为**RUNING**，同时Statistic和Progress中的导入信息开始更新，继续导入数据。
 
 ### 停止导入任务
 
@@ -293,9 +301,11 @@ ERROR: No query specified
 
 * 停止名称为 job_name 的例行导入任务。`
 
-`STOP ROUTINE LOAD FOR [job_name];`
+    ~~~SQL
+    STOP ROUTINE LOAD FOR [job_name];
+    ~~~
 
-可以通过 HELP STOP ROUTINE LOAD; 命令查看帮助和示例。
+可以通过 `HELP STOP ROUTINE LOAD;` 命令查看帮助和示例。
 
 ~~~sql
 MySQL [load_test]> STOP ROUTINE LOAD FOR routine_load_wikipedia;
@@ -328,10 +338,11 @@ ReasonOfStateChanged:
 
 ## 常见问题
 
-* 导入任务被PAUSE，报错Broker: Offset out of range
+* Q：导入任务被PAUSE，报错Broker: Offset out of range
 
-  * 通过SHOW ROUTINE LOAD查看最新的offset，用Kafka客户端查看该offset有没有数据。
-  * 可能原因：
+  A：通过SHOW ROUTINE LOAD查看最新的offset，用Kafka客户端查看该offset有没有数据。
 
-    * 导入时指定了未来的offset。
-    * 还没来得及导入，Kafka已经将该offset的数据清理。需要根据DorisDB的导入速度设置合理的log清理参数log.retention.hours、log.retention.bytes等。
+    可能原因：
+
+  * 导入时指定了未来的offset。
+  * 还没来得及导入，Kafka已经将该offset的数据清理。需要根据DorisDB的导入速度设置合理的log清理参数log.retention.hours、log.retention.bytes等。
