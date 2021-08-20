@@ -102,7 +102,7 @@ PROPERTIES (
     "hosts" = "http://192.168.0.1:8200,http://192.168.0.2:8200",
     "user" = "root",
     "password" = "root",
-    "index" = "tindex”,
+    "index" = "tindex",
     "type" = "doc"
 );
 ~~~
