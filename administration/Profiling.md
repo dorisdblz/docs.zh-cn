@@ -98,7 +98,7 @@ PROPERTIES(
 );
 ~~~
 
-更多关于colocated join的使用和副本管理机制参考[Colocation join](../using_dorisdb/Colocation_join.md)
+更多关于colocate join的使用和副本管理机制参考[Colocate join](../using_dorisdb/Colocation_join.md)
 
 ### 大宽表与star schema
 
