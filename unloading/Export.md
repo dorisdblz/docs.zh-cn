@@ -23,7 +23,9 @@
 
 1. 用户提交一个 Export 作业到 FE。
 2. FE 的导出调度器会通过两阶段来执行一个导出作业：
+
     a.  PENDING：FE 生成**一个** ExportPendingTask，向 BE 发送 snapshot 命令，对所有涉及到的 Tablet 做一个快照，并生成**多个**查询计划。
+
     b.  EXPORTING：FE 生成**一个** ExportExportingTask，开始执行**一个个**的查询计划。
 
 ### 查询计划拆分
@@ -124,22 +126,22 @@ FinishTime: 2019-06-25 17:08:34
 
 * JobId：作业的唯一 ID
 * State：作业状态：
-* PENDING：作业待调度
-* EXPORING：数据导出中
-* FINISHED：作业成功
-* CANCELLED：作业失败
+  * PENDING：作业待调度
+  * EXPORING：数据导出中
+  * FINISHED：作业成功
+  * CANCELLED：作业失败
 
 * Progress：作业进度。该进度以查询计划为单位。假设一共 10 个查询计划，当前已完成 3 个，则进度为 30%。
 * TaskInfo：以 Json 格式展示的作业信息：
-* db：数据库名
-* tbl：表名
-* partitions：指定导出的分区。\*表示所有分区。
-* exec mem limit：查询的内存使用限制。单位字节。
-* column separator：导出文件的列分隔符。
-* line delimiter：导出文件的行分隔符。
-* tablet num：涉及的总 Tablet 数量。
-* broker：使用的 broker 的名称。
-* coord num：查询计划的个数。
+  * db：数据库名
+  * tbl：表名
+  * partitions：指定导出的分区。\*表示所有分区。
+  * exec mem limit：查询的内存使用限制。单位字节。
+  * column separator：导出文件的列分隔符。
+  * line delimiter：导出文件的行分隔符。
+  * tablet num：涉及的总 Tablet 数量。
+  * broker：使用的 broker 的名称。
+  * coord num：查询计划的个数。
 
 * Path：远端存储上的导出路径。
 * CreateTime/StartTime/FinishTime：作业的创建时间、开始调度时间和结束时间。

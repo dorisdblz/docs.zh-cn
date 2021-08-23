@@ -57,7 +57,7 @@ Roaring Bitmap实现，细节可以参考：[具体论文和实现](https://gith
 3. 创建表时指定指标列的数据类型为BITMAP,  聚合函数为BITMAP\_UNION。
 4. 当在Bitmap类型列上使用count distinct时，DorisDB会自动转化为BITMAP\_UNION\_COUNT计算。
 
-具体操作函数参见 [Bitmap函数](../Bitmap_functions.md)。
+具体操作函数参见 [Bitmap函数](../sql-reference/sql-functions/bitmap-functions/bitmap_and.md)。
 
 ### 示例
 

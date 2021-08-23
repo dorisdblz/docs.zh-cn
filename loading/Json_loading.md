@@ -40,7 +40,7 @@ curl -v --location-trusted -u root: \
 样例数据：
 
 ~~~json
-{"k1" : 1, "k2": 2}
+{"k1": 1, "k2": 2}
 ~~~
 
 导入示例：
@@ -53,7 +53,7 @@ curl -v --location-trusted -u root: \
     http://127.0.0.1:8030/api/db1/tbl1/_stream_load
 ~~~
 
-这里导入过程中进行了ETL操作，并且通过Jsonpath来进行column和原始数据的对应
+这里导入过程中进行了将k1乘以100的ETL操作，并且通过Jsonpath来进行column和原始数据的对应
 
 导入后结果
 
