@@ -555,8 +555,8 @@ mysql > show databases;
 +--------------------+
 | Database           |
 +--------------------+
-| example_db        |
-| information_schema|
+| example_db         |
+| information_schema |
 +--------------------+
 2 rows in set (0.00 sec)
 ```

@@ -31,4 +31,4 @@ FE接收MySQL客户端的连接, 解析并执行SQL语句。
 ### 其他组件
 
 * 管理平台, 在后面会专门的章节介绍。
-* Hdfs Broker:  用于从Hdfs中导入数据到DorisDB集群，见[数据导入](../loading/Loading.md)章节。
+* Hdfs Broker:  用于从Hdfs中导入数据到DorisDB集群，见[数据导入](../loading/Loading_intro.md)章节。
