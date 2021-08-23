@@ -35,13 +35,13 @@ Spark Load 任务的执行主要分为以下几个阶段：
 
 ## 全局字典
 
-## 适用场景
+### 适用场景
 
 目前DorisDB中BITMAP列是使用类库Roaringbitmap实现的，而Roaringbitmap的输入数据类型只能是整型，因此如果要在导入流程中实现对于BITMAP列的预计算，那么就需要将输入数据的类型转换成整型。
 
 在DorisDB现有的导入流程中，全局字典的数据结构是基于Hive表实现的，保存了原始值到编码值的映射。
 
-## 构建流程
+### 构建流程
 
 1. 读取上游数据源的数据，生成一张Hive临时表，记为hive-table。
 2. 从hive-table中抽取待去重字段的去重值，生成一张新的Hive表，记为distinct-value-table。
@@ -67,7 +67,7 @@ Spark Load 任务的执行主要分为以下几个阶段：
 
 ## 基本操作
 
-## 配置 ETL 集群
+### 配置 ETL 集群
 
 Spark作为一种外部计算资源在DorisDB中用来完成ETL工作，未来可能还有其他的外部资源会加入到DorisDB中使用，如Spark/GPU用于查询，HDFS/S3用于外部存储，MapReduce用于ETL等，因此我们引入Resource Management来管理DorisDB使用的这些外部资源。
 
@@ -103,24 +103,24 @@ resource-name 为 DorisDB 中配置的 Spark 资源的名字。
 
 PROPERTIES 是 Spark 资源相关参数，如下：
 
-* **type**：资源类型，必填，目前仅支持 spark。
-* **spark** 相关参数如下：
-  
-* `spark.master`: 必填，目前支持yarn。
-* `spark.submit.deployMode`: Spark 程序的部署模式，必填，支持 cluster，client 两种。
-* `spark.hadoop.fs.defaultFS`: master为yarn时必填。
-* yarn resource manager 相关参数，master 为 yarn 时需要填写。
-* 单点 resource manager 需要配置
-* `spark.hadoop.yarn.resourcemanager.address`: 单点resource manager地址。
-* HA resource manager 需要配置，其中 hostname 和 address 任选一个配置。
-* `spark.hadoop.yarn.resourcemanager.ha.enabled`: resource manager 启用 HA，设置为true。
-* `spark.hadoop.yarn.resourcemanager.ha.rm-ids`: resource manager 逻辑 id 列表。
-* `spark.hadoop.yarn.resourcemanager.hostname.rm-id`: 对于每个 rm-id，指定 resource manager 对应的主机名。
-* `spark.hadoop.yarn.resourcemanager.address.rm-id`: 对于每个rm-id，指定 host:port 以供客户端提交作业。
-* 其他参数为可选，参考 [Spark Configuration](http://spark.apache.org/docs/latest/configuration.html)
-* **working_dir**: ETL 使用的目录。spark作为ETL资源使用时必填。例如：hdfs://host:port/tmp/doris。
-* **broker**: broker 名字。spark作为ETL资源使用时必填。需要使用`ALTER SYSTEM ADD BROKER` 命令提前完成配置。
-* `broker.property_key`: broker读取ETL生成的中间文件时需要指定的认证信息等。
+*
+  * **type**：资源类型，必填，目前仅支持 spark。
+  * **spark** 相关参数如下：
+  * `spark.master`: 必填，目前支持yarn。
+  * `spark.submit.deployMode`: Spark 程序的部署模式，必填，支持 cluster，client 两种。
+  * `spark.hadoop.fs.defaultFS`: master为yarn时必填。
+  * yarn resource manager 相关参数，master 为 yarn 时需要填写。
+  * 单点 resource manager 需要配置
+  * `spark.hadoop.yarn.resourcemanager.address`: 单点resource manager地址。
+  * HA resource manager 需要配置，其中 hostname 和 address 任选一个配置。
+  * `spark.hadoop.yarn.resourcemanager.ha.enabled`: resource manager 启用 HA，设置为true。
+  * `spark.hadoop.yarn.resourcemanager.ha.rm-ids`: resource manager 逻辑 id 列表。
+  * `spark.hadoop.yarn.resourcemanager.hostname.rm-id`: 对于每个 rm-id，指定 resource manager 对应的主机名。
+  * `spark.hadoop.yarn.resourcemanager.address.rm-id`: 对于每个rm-id，指定 host:port 以供客户端提交作业。
+  * 其他参数为可选，参考 [Spark Configuration](http://spark.apache.org/docs/latest/configuration.html)
+  * **working_dir**: ETL 使用的目录。spark作为ETL资源使用时必填。例如：hdfs://host:port/tmp/doris。
+  * **broker**: broker 名字。spark作为ETL资源使用时必填。需要使用`ALTER SYSTEM ADD BROKER` 命令提前完成配置。
+  * `broker.property_key`: broker读取ETL生成的中间文件时需要指定的认证信息等。
 
 **示例**：
 
@@ -186,18 +186,21 @@ GRANT USAGE_PRIV ON RESOURCE* TO ROLE "role0";
 REVOKE USAGE_PRIV ON RESOURCE "spark0" FROM "user0"@"%";
 ~~~
 
-## 配置 Spark 客户端
+### 配置 Spark 客户端
 
 FE底层通过执行`spark-submit`的命令去提交spark任务，因此需要为FE配置spark客户端，建议使用2.4.5或以上的spark2官方版本，[spark下载地址](https://archive.apache.org/dist/spark/)，下载完成后，请按步骤完成以下配置：
 
 * 配置 SPARK-HOME 环境变量
-将spark客户端放在FE同一台机器上的目录下，并在FE的配置文件配置  `spark_home_default_dir`项指向此目录，此配置项默认为FE根目录下的 `lib/spark2x`路径，此项不可为空。
+  
+    将spark客户端放在FE同一台机器上的目录下，并在FE的配置文件配置  `spark_home_default_dir`项指向此目录，此配置项默认为FE根目录下的 `lib/spark2x`路径，此项不可为空。
 
 * **配置 SPARK 依赖包**
-将spark客户端下的jars文件夹内所有jar包归档打包成一个zip文件，并在FE的配置文件配置`spark_resource_path`项指向此zip文件，若此配置项为空，则FE会尝试寻找FE根目录下的lib/spark2x/jars/spark-2x.zip文件，若没有找到则会报文件不存在的错误。
+  
+    将spark客户端下的jars文件夹内所有jar包归档打包成一个zip文件，并在FE的配置文件配置`spark_resource_path`项指向此zip文件，若此配置项为空，则FE会尝试寻找FE根目录下的lib/spark2x/jars/spark-2x.zip文件，若没有找到则会报文件不存在的错误。
 
 当提交spark load任务时，会将归档好的依赖文件上传至远端仓库，默认仓库路径挂在`working_dir/{cluster_id}`目录下，并以--spark-repository--{resource-name}命名，表示集群内的一个resource对应一个远端仓库，远端仓库目录结构参考如下：
 
+~~~bash
 ---spark-repository--spark0/
 
    |---archive-1.0.0/
@@ -216,18 +219,23 @@ FE底层通过执行`spark-submit`的命令去提交spark任务，因此需要�
 
    |        |-...
 
+~~~
+
 除了spark依赖(默认以spark-2x.zip命名)，FE还会上传DPP的依赖包至远端仓库，若此次spark load提交的所有依赖文件都已存在远端仓库，那么就不需要再上传依赖，省下原来每次重复上传大量文件的时间。
 
-## 配置 YARN 客户端
+### 配置 YARN 客户端
 
 FE底层通过执行yarn命令去获取正在运行的application的状态，以及杀死application，因此需要为FE配置yarn客户端，建议使用2.5.2或以上的hadoop2官方版本（[hadoop下载地址](https://archive.apache.org/dist/hadoop/common/)），下载完成后，请按步骤完成以下配置:
 
 * **配置 YARN 可执行文件路径**
+  
 将下载好的yarn客户端放在FE同一台机器的目录下，并在FE配置文件配置`yarn_client_path`项指向yarn的二进制可执行文件，默认为FE根目录下的`lib/yarn-client/hadoop/bin/yarn`路径。
+
 * **配置生成 YARN 所需的配置文件的路径（可选）**
+  
 当FE通过yarn客户端去获取application的状态，或者杀死application时，默认会在FE根目录下的`lib/yarn-config`路径下生成执行yarn命令所需的配置文件，此路径可通过在FE配置文件配置`yarn_config_dir`项修改，目前生成的配置文件包括`core-site.xml`和`yarn-site.xml`。
 
-## 创建导入任务
+### 创建导入任务
 
 **语法**：
 
@@ -274,8 +282,8 @@ LOAD LABEL db1.label1
     (tmp_c1,tmp_c2)
     SET
     (
-    id=tmp_c2,
-    name=tmp_c1
+        id=tmp_c2,
+        name=tmp_c1
     ),
     DATA INFILE("hdfs://abc.com:8888/user/palo/test/ml/file2")
     INTO TABLE tbl2
@@ -326,17 +334,17 @@ properties
 );
  ~~~
 
-* step 2: 提交load命令，要求导入的 DorisDB 表中的列必须在 hive 外部表中存在。
+* step 3: 提交load命令，要求导入的 DorisDB 表中的列必须在 hive 外部表中存在。
 
 ~~~sql
 LOAD LABEL db1.label1
 (
-DATA FROM TABLE hive_t1
-INTO TABLE tbl1
-SET
-(
-    uuid=bitmap_dict(uuid)
-)
+    DATA FROM TABLE hive_t1
+    INTO TABLE tbl1
+    SET
+    (
+        uuid=bitmap_dict(uuid)
+    )
 )
 WITH RESOURCE 'spark0'
 (
@@ -352,15 +360,19 @@ PROPERTIES
 创建导入的详细语法执行 HELP SPARK LOAD 查看语法帮助。这里主要介绍 Spark load 的创建导入语法中参数意义和注意事项。
 
 * **Label**
+  
 导入任务的标识。每个导入任务，都有一个在单 database 内部唯一的 Label。具体规则与 Broker Load 一致。
 
 * **数据描述类参数**
+  
 目前支持的数据源有CSV和hive table。其他规则与 Broker Load 一致。
 
 * **导入作业参数**
+  
 导入作业参数主要指的是 Spark load 创建导入语句中的属于 `opt_properties`部分的参数。导入作业参数是作用于整个导入作业的。规则与 Broker Load 一致。
 
 * **Spark资源参数**
+  
 Spark资源需要提前配置到 DorisDB系统中并且赋予用户USAGE-PRIV权限后才能使用 Spark Load。
 当用户有临时性的需求，比如增加任务使用的资源而修改 Spark configs，可以在这里设置，设置仅对本次任务生效，并不影响 DorisDB 集群中已有的配置。
 
@@ -373,9 +385,11 @@ WITH RESOURCE 'spark0'
  ~~~
 
 * **数据源为hive表时的导入**
+  
 目前如果期望在导入流程中将hive表作为数据源，那么需要先新建一张类型为hive的外部表， 然后提交导入命令时指定外部表的表名即可。
 
 * **导入流程构建全局字典**
+  
 适用于DorisDB表聚合列的数据类型为bitmap类型。 在load命令中指定需要构建全局字典的字段即可，格式为：`DorisDB字段名称=bitmap_dict(hive表字段名称)`需要注意的是目前**只有在上游数据源为hive表**时才支持全局字典的构建。
 
 ## 查看导入任务
@@ -405,12 +419,16 @@ LoadFinishTime: 2019-07-27 11:50:16
 ~~~
 
 * **State**
+  
 导入任务当前所处的阶段。任务提交之后状态为 PENDING，提交 Spark ETL 之后状态变为 ETL，ETL 完成之后 FE 调度 BE 执行 push 操作状态变为 LOADING，push 完成并且版本生效后状态变为 FINISHED。
 导入任务的最终阶段有两个：CANCELLED 和 FINISHED，当 Load job 处于这两个阶段时导入完成。其中 CANCELLED 为导入失败，FINISHED 为导入成功。
 
 * **Progress**
+  
  导入任务的进度描述。分为两种进度：ETL 和 LOAD，对应了导入流程的两个阶段 ETL 和 LOADING。
+
 * LOAD 的进度范围为：0~100%。
+  
  `LOAD 进度 = 当前已完成所有replica导入的tablet个数 / 本次导入任务的总tablet个数* 100%`
 
 * 如果所有导入表均完成导入，此时 LOAD 的进度为 99%， 导入进入到最后生效阶段，整个导入完成后，LOAD 的进度才会改为 100%。
@@ -437,11 +455,11 @@ LoadFinishTime: 2019-07-27 11:50:16
 
  可复制输入到浏览器，跳转至相应application的web界面。
 
-## 查看Spark Launcher提交日志
+### 查看Spark Launcher提交日志
 
 有时用户需要查看spark任务提交过程中产生的详细日志，日志默认保存在FE根目录下`log/spark_launcher_log`路径下，并以spark-launcher-{load-job-id}-{label}.log命名，日志会在此目录下保存一段时间，当FE元数据中的导入信息被清理时，相应的日志也会被清理，默认保存时间为3天。
 
-## 取消导入
+### 取消导入
 
 当 Spark load 作业状态不为 CANCELLED 或 FINISHED 时，可以被用户手动取消。取消时需要指定待取消导入任务的 Label 。取消导入命令语法可执行 `HELP CANCEL LOAD`查看。
 

@@ -10,8 +10,9 @@ DorisDB支持从Apache HDFS、Amazon S3等外部存储系统导入数据，支�
 
 ## 名词解释
 
-**Broker:  Broker 为一个独立的无状态进程，封装了文件系统接口，为 DorisDB 提供读取远端存储系统中文件的能力。
-**Plan:  导入执行计划，BE会执行导入执行计划将数据导入到DorisDB系统中。
+* Broker:  Broker 为一个独立的无状态进程，封装了文件系统接口，为 DorisDB 提供读取远端存储系统中文件的能力。
+
+* Plan:  导入执行计划，BE会执行导入执行计划将数据导入到DorisDB系统中。
 
 ---
 
@@ -40,7 +41,7 @@ DorisDB支持从Apache HDFS、Amazon S3等外部存储系统导入数据，支�
 
 Broker Load需要借助Broker进程访问远端存储，因此使用Broker Load前需要搭建好Broker。
 
-可以参考第二章（[Broker 部署](../quick_start/Installation.md)）。
+可以参考手动部署（[部署Broker](../quick_start/Deploy.md)）。
 
 ### 创建导入任务
 

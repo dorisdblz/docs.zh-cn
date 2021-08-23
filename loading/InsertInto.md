@@ -45,52 +45,55 @@ INSERT INTO table_name
 
 Insert Into 本身就是一个 SQL 命令，其返回结果会根据执行结果的不同，分为以下几种：
 
-* 执行成功
+执行成功
 
-`mysql> insert into tbl1 select * from empty_tbl;`
+~~~sql
+mysql> insert into tbl1 select * from empty_tbl;
+Query OK, 0 rows affected (0.02 sec)
 
-`Query OK, 0 rows affected (0.02 sec)`
+mysql> insert into tbl1 select * from tbl2;
+Query OK, 4 rows affected (0.38 sec)
+{'label':'insert_8510c568-9eda-4173-9e36-6adc7d35291c', 'status':'visible', 'txnId':'4005'}
 
-`mysql> insert into tbl1 select * from tbl2;`
+mysql> insert into tbl1 with label my_label1 select * from tbl2;
+Query OK, 4 rows affected (0.38 sec)
+{'label':'my_label1', 'status':'visible', 'txnId':'4005'}
 
-`Query OK, 4 rows affected (0.38 sec)`
+mysql> insert into tbl1 select * from tbl2;
+Query OK, 2 rows affected, 2 warnings (0.31 sec)
+{'label':'insert_f0747f0e-7a35-46e2-affa-13a235f4020d', 'status':'visible', 'txnId':'4005'}
 
-`{'label':'insert_8510c568-9eda-4173-9e36-6adc7d35291c', 'status':'visible', 'txnId':'4005'}`
+mysql> insert into tbl1 select * from tbl2;
+Query OK, 2 rows affected, 2 warnings (0.31 sec)
+{'label':'insert_f0747f0e-7a35-46e2-affa-13a235f4020d', 'status':'committed', 'txnId':'4005'}
 
-`mysql> insert into tbl1 with label my_label1 select * from tbl2;`
+~~~
 
-`Query OK, 4 rows affected (0.38 sec)`
+rows affected 表示总共有多少行数据被导入。warnings 表示被过滤的行数。
 
-`{'label':'my_label1', 'status':'visible', 'txnId':'4005'}`
+label 为用户指定的 label 或自动生成的 label。Label 是该 Insert Into 导入作业的标识。每个导入作业，都有一个在单 database 内部唯一的 Label。
 
-`mysql> insert into tbl1 select * from tbl2;`
+status 表示导入数据是否可见。如果可见，显示 visible，如果不可见，显示 committed。
+txnId 为这个 insert 对应的导入事务的 id。
 
-`Query OK, 2 rows affected, 2 warnings (0.31 sec)`
+err 字段会显示一些其他非预期错误。当需要查看被过滤的行时，用户可以使用如下语句。返回结果中的 URL 可以用于查询错误的数据。
 
-`{'label':'insert_f0747f0e-7a35-46e2-affa-13a235f4020d', 'status':'visible', 'txnId':'4005'}`
+~~~sql
+SHOW LOAD WHERE label="xxx";
+~~~
 
-`mysql> insert into tbl1 select * from tbl2;`
+执行失败
 
-`Query OK, 2 rows affected, 2 warnings (0.31 sec)`
+执行失败表示没有任何数据被成功导入，并返回如下：
 
-`{'label':'insert_f0747f0e-7a35-46e2-affa-13a235f4020d', 'status':'committed', 'txnId':'4005'}`
+~~~sql
+mysql> insert into tbl1 select * from tbl2 where k1 = "a";
 
-* rows affected 表示总共有多少行数据被导入。warnings 表示被过滤的行数。
-* label 为用户指定的 label 或自动生成的 label。Label 是该 Insert Into 导入作业的标识。每个导入作业，都有一个在单 database 内部唯一的 Label。
-* status 表示导入数据是否可见。如果可见，显示 visible，如果不可见，显示 committed。
-* txnId 为这个 insert 对应的导入事务的 id。
-* err 字段会显示一些其他非预期错误。当需要查看被过滤的行时，用户可以使用如下语句。返回结果中的 URL 可以用于查询错误的数据。
+ERROR 1064 (HY000): all partitions have no load data. url: [http://10.74.167.16:8042/api/_load_error_log?file=__shard_2/error_log_insert_stmt_ba8bb9e158e4879-ae8de8507c0bf8a2_ba8bb9e158e4879_ae8de8507c0bf8a2](http://10.74.167.16:8042/api/_load_error_log?file=__shard_2/error_log_insert_stmt_ba8bb9e158e4879-ae8de8507c0bf8a2_ba8bb9e158e4879_ae8de8507c0bf8a2)
 
-`SHOW LOAD WHERE label="xxx";`
+~~~
 
-* 执行失败
-* 执行失败表示没有任何数据被成功导入，并返回如下：
-
-`mysql> insert into tbl1 select * from tbl2 where k1 = "a";`
-
-`ERROR 1064 (HY000): all partitions have no load data. url: [http://10.74.167.16:8042/api/_load_error_log?file=__shard_2/error_log_insert_stmt_ba8bb9e158e4879-ae8de8507c0bf8a2_ba8bb9e158e4879_ae8de8507c0bf8a2](http://10.74.167.16:8042/api/_load_error_log?file=__shard_2/error_log_insert_stmt_ba8bb9e158e4879-ae8de8507c0bf8a2_ba8bb9e158e4879_ae8de8507c0bf8a2)`
-
-* 其中 ERROR 1064 (HY000): all partitions have no load data 显示失败原因。后面的 url 可以用于查询错误的数据。
+其中 ERROR 1064 (HY000): all partitions have no load data 显示失败原因。后面的 url 可以用于查询错误的数据。
 
 ---
 
@@ -136,6 +139,7 @@ PARTITION BY RANGE(event_time)
 )
 DISTRIBUTED BY HASH(user) BUCKETS 10
 PROPERTIES("replication_num" = "1");
+
 ~~~
 
 ### 通过values导入数据
@@ -144,6 +148,7 @@ PROPERTIES("replication_num" = "1");
 mysql> INSERT INTO insert_wiki_edit VALUES("2015-09-12 00:00:00","#en.wikipedia","GELongstreet",0,0,0,0,0,36,36,0),("2015-09-12 00:00:00","#ca.wikipedia","PereBot",0,1,0,1,0,17,17,0);
 Query OK, 2 rows affected (0.29 sec)
 {'label':'insert_1f12c916-5ff8-4ba9-8452-6fc37fac2e75', 'status':'VISIBLE', 'txnId':'601'}
+
 ~~~
 
 ### 通过select导入数据
@@ -152,6 +157,7 @@ Query OK, 2 rows affected (0.29 sec)
 mysql> INSERT INTO insert_wiki_edit WITH LABEL insert_load_wikipedia SELECT * FROM routine_wiki_edit; 
 Query OK, 18203 rows affected (0.40 sec)
 {'label':'insert_load_wikipedia', 'status':'VISIBLE', 'txnId':'618'}
+
 ~~~
 
 ## 注意事项

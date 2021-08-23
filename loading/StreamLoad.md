@@ -58,13 +58,13 @@ Stream Load 中所有与导入任务相关的参数均设置在 Header 中。下
 * **row-delimiter**: 用户指定导入文件中的行分隔符，默认为\\n。
 * **columns** ：用于指定导入文件中的列和 table 中的列的对应关系。如果源文件中的列正好对应表中的内容，那么无需指定该参数。如果源文件与表schema不对应，那么需要这个参数来配置数据转换规则。这里有两种形式的列，一种是直接对应于导入文件中的字段，可直接使用字段名表示；一种需要通过计算得出。举几个例子帮助理解：
 
-* 例1：表中有3列"c1, c2, c3"，源文件中的3列依次对应的是"c3,c2,c1"; 那么需要指定\-H "columns: c3, c2, c1"
-* 例2：表中有3列"c1, c2, c3" ，源文件中前3列一一对应，但是还有多余1列；那么需要指定\-H "columns: c1, c2, c3, temp"，最后1列随意指定名称用于占位即可。
-* 例3：表中有3个列“year, month, day"，源文件中只有一个时间列，为”2018-06-01 01:02:03“格式；那么可以指定 \-H "columns: col, year = year(col), month=month(col), day=day(col)"完成导入。
+  * 例1：表中有3列"c1, c2, c3"，源文件中的3列依次对应的是"c3,c2,c1"; 那么需要指定\-H "columns: c3, c2, c1"
+  * 例2：表中有3列"c1, c2, c3" ，源文件中前3列一一对应，但是还有多余1列；那么需要指定\-H "columns: c1, c2, c3, temp"，最后1列随意指定名称用于占位即可。
+  * 例3：表中有3个列“year, month, day"，源文件中只有一个时间列，为”2018-06-01 01:02:03“格式；那么可以指定 \-H "columns: col, year = year(col), month=month(col), day=day(col)"完成导入。
 
 * **where**: 用于抽取部分数据。用户如需将不需要的数据过滤掉，那么可以通过设定这个选项来达到。
 
-* 例1：只导入k1列等于20180601的数据，那么可以在导入时指定\-H "where: k1 = 20180601"。
+  * 例1：只导入k1列等于20180601的数据，那么可以在导入时指定\-H "where: k1 = 20180601"。
 
 * **max-filter-ratio**：最大容忍可过滤（数据不规范等原因而过滤）的数据比例。默认零容忍。数据不规范不包括通过 where 条件过滤掉的行。
 * **partitions**: 用于指定这次导入所涉及的partition。如果用户能够确定数据对应的partition，推荐指定该项。不满足这些分区的数据将被过滤掉。比如指定导入到p1、p2分区：\-H "partitions: p1, p2"。
@@ -73,39 +73,42 @@ Stream Load 中所有与导入任务相关的参数均设置在 Header 中。下
 * **timezone**: 指定本次导入所使用的时区。默认为东八区。该参数会影响所有导入涉及的和时区有关的函数结果。
 * **exec-mem-limit**: 导入内存限制。默认为 2GB。单位为字节。
 
-### 返回结果
+**返回结果：**
 
 导入完成后，Stream Load会以Json格式返回这次导入的相关内容，示例如下：
 
-`{`
+~~~json
+{
 
-`"TxnId": 1003,`
+"TxnId": 1003,
 
-`"Label": "b6f3bc78-0d2c-45d9-9e4c-faa0a0149bee",`
+"Label": "b6f3bc78-0d2c-45d9-9e4c-faa0a0149bee",
 
-`"Status": "Success",`
+"Status": "Success",
 
-`"ExistingJobStatus": "FINISHED", // optional`
+"ExistingJobStatus": "FINISHED", // optional
 
-`"Message": "OK",`
+"Message": "OK",
 
-`"NumberTotalRows": 1000000,`
+"NumberTotalRows": 1000000,
 
-`"NumberLoadedRows": 1000000,`
+"NumberLoadedRows": 1000000,
 
-`"NumberFilteredRows": 1,`
+"NumberFilteredRows": 1,
 
-`"NumberUnselectedRows": 0,`
+"NumberUnselectedRows": 0,
 
-`"LoadBytes": 40888898,`
+"LoadBytes": 40888898,
 
-`"LoadTimeMs": 2144,`
+"LoadTimeMs": 2144,
 
-`"ErrorURL": "[http://192.168.1.1:8042/api/_load_error_log?file=__shard_0/error_log_insert_stmt_db18266d4d9b4ee5-abb00ddd64bdf005_db18266d4d9b4ee5_abb00ddd64bdf005](http://192.168.1.1:8042/api/_load_error_log?file=__shard_0/error_log_insert_stmt_db18266d4d9b4ee5-abb00ddd64bdf005_db18266d4d9b4ee5_abb00ddd64bdf005)"`
+"ErrorURL": "[http://192.168.1.1:8042/api/_load_error_log?file=__shard_0/error_log_insert_stmt_db18266d4d9b4ee5-abb00ddd64bdf005_db18266d4d9b4ee5_abb00ddd64bdf005](http://192.168.1.1:8042/api/_load_error_log?file=__shard_0/error_log_insert_stmt_db18266d4d9b4ee5-abb00ddd64bdf005_db18266d4d9b4ee5_abb00ddd64bdf005)"
 
-`}`
+}
+~~~
 
 * TxnId：导入的事务ID。用户可不感知。
+  
 * Status: 导入最后的状态。
 
 * Success：表示导入成功，数据已经可见。
@@ -122,7 +125,9 @@ Stream Load 中所有与导入任务相关的参数均设置在 Header 中。下
 * LoadTimeMs: 此次导入所用的时间(ms)。
 * ErrorURL: 被过滤数据的具体内容，仅保留前1000条。如果导入任务失败，可以直接用以下方式获取被过滤的数据，并进行分析，以调整导入任务。
 
-`wget http://192.168.1.1:8042/api/_load_error_log?file=__shard_0/error_log_insert_stmt_db18266d4d9b4ee5-abb00ddd64bdf005_db18266d4d9b4ee5_abb00ddd64bdf005`
+  * ~~~bash
+    wget http://192.168.1.1:8042/api/_load_error_log?file=__shard_0/error_log_insert_stmt_db18266d4d9b4ee5-abb00ddd64bdf005_db18266d4d9b4ee5_abb00ddd64bdf005
+    ~~~
 
 ### 取消导入
 
