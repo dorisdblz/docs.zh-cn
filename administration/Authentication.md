@@ -34,7 +34,7 @@ CREATE USER zhangsan IDENTIFIED WITH authentication_ldap_simple
 
 LDAP认证需要客户端传递明文密码给DorisDB。三种典型客户端配置明文密码传递的方式如下。
 
-* **1\. mysql 命令行**
+* **mysql 命令行**
 
 执行时添加 --default-auth mysql\_clear\_password --enable-cleartext-plugin 选项，例如：
 
@@ -42,11 +42,11 @@ LDAP认证需要客户端传递明文密码给DorisDB。三种典型客户端配
 mysql -uzhangsan -P8030 -h127.0.0.1 -p --default-auth mysql_clear_password --enable-cleartext-plugin
 ~~~
 
-* **2\. JDBC**
+* **JDBC**
 
 由于JDBC默认的MysqlClearPasswordPlugin需要使用SSL传输，所以需要自定义plugin：
 
-~~~bash
+~~~java
 public class MysqlClearPasswordPluginWithoutSSL extends MysqlClearPasswordPlugin {
     @Override  
     public boolean requiresConfidentiality() {
@@ -57,7 +57,7 @@ public class MysqlClearPasswordPluginWithoutSSL extends MysqlClearPasswordPlugin
 
 在获取连接时，将自定义的plugin配置到属性中：
 
-~~~bash
+~~~java
 ...
 Properties properties = new Properties();// replace xxx.xxx.xxx to your pacakage name
 properties.put("authenticationPlugins", "xxx.xxx.xxx.MysqlClearPasswordPluginWithoutSSL");
@@ -65,6 +65,6 @@ properties.put("defaultAuthenticationPlugin", "xxx.xxx.xxx.MysqlClearPasswordPlu
 properties.put("disabledAuthenticationPlugins", "com.mysql.jdbc.authentication.MysqlNativePasswordPlugin");DriverManager.getConnection(url, properties);
 ~~~
 
-* **3\. ODBC**
+* **ODBC**
 
 在ODBC的DSN中添加配置：default\_auth=mysql\_clear\_password和ENABLE\_CLEARTEXT\_PLUGIN=1，并配上用户名和密码。

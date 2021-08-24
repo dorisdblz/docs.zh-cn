@@ -6,7 +6,7 @@
 
 ## 语法
 
-通过 enable\_sql\_blacklist 开启sql黑名单(默认关闭)：
+通过 enable_sql_blacklist 开启sql黑名单(默认关闭)：
 
 ~~~sql
 admin set frontend config ("enable_sql_blacklist" = "true")
@@ -26,7 +26,7 @@ SHOW SQLBLACKLISTS
 ## 增加黑名单
 
 ~~~sql
-**ADD SQLBLACKLIST #sql#**
+ADD SQLBLACKLIST #sql#
 ~~~
 
 **#sql#** 是某类sql的正则表达式，但是由于sql本身包含的常用字符 "(", ")", "*", "."等与正则表达式下的语义会混淆，所以这里需要通过转义符作出区分，鉴于"("和")"在sql中使用频率过高，所以不需要转义字符，其他特殊字符需要使用转义字符"\"作为前缀。例如:
@@ -89,7 +89,7 @@ DELETE SQLBLACKLIST #indexlist#
 比如对`SHOW SQLBLACKLIST`中的sqlblacklist做delete:
 
 ~~~sql
-delete sqlblacklist  3, 4;   （#indexlist#是以","分隔的id）
+delete sqlblacklist  3, 4;   --（#indexlist#是以","分隔的id）
 ~~~
 
 之后剩下的sqlblacklist为：

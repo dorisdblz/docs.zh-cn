@@ -59,7 +59,7 @@
 <http://be_ip:be_web_port/memz>
 ~~~
 
-~~~sql
+~~~plain text
 ------------------------------------------------
 MALLOC:      777276768 (  741.3 MiB) Bytes in use by application
 MALLOC: +   8851890176 ( 8441.8 MiB) Bytes in page heap freelist

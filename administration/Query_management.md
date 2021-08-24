@@ -24,12 +24,15 @@ SHOW PROPERTY FOR 'root';
 
 通过 set 'key' = 'value' 可以设置session级别的变量，可以限制当前session中查询的并发度，内存等等参数，例如：
 
-```sql
-parallel_fragment_exec_instance_num   查询的并行度，默认为1
-    表示每个BE上fragment的实例数量，如果希望提升单个查询的性能，可以设置为BE的CPU核数的一半。
-exec_mem_limit 查询的内存限制，在查询报内存不足时可以调整。
-load_mem_limit 导入的内存限制，在导入报内存不足时可以调整。
-```
+- parallel_fragment_exec_instance_num
+
+  查询的并行度，默认为1.表示每个BE上fragment的实例数量，如果希望提升单个查询的性能，可以设置为BE的CPU核数的一半。
+- exec_mem_limit
+
+  查询的内存限制，在查询报内存不足时可以调整。
+- load_mem_limit
+
+  导入的内存限制，在导入报内存不足时可以调整。
 
 例如：
 
@@ -53,19 +56,19 @@ ALTER DATABASE db_name SET DATA QUOTA quota;
 ALTER DATABASE example_db SET DATA QUOTA 10T;
 ```
 
-更多参考 7.1.3.1章节
+更多参考 [ALTER DATABASE](../sql-reference/sql-statements/data-definition/ALTER%20DATABASE.md)
 
 ## 杀死查询
 
 我们可以通过kill 命令杀掉某一个连接上的查询，其语法是：
 
 ```sql
-    kill connection_id;
+kill connection_id;
 ```
 
-connection_id 可以通过show processlist; 或者select connection\_id(); 查询到
+connection_id 可以通过show processlist; 或者select connection_id(); 查询到
 
-```sql
+```plain text
  show processlist;
 +------+------------+---------------------+-----------------+---------------+---------+------+-------+------+
 | Id   | User       | Host                | Cluster         | Db            | Command | Time | State | Info |

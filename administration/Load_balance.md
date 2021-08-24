@@ -1,16 +1,16 @@
 # 负载均衡
 
-当部署多个 FE 节点时，用户可以在多个 FE 之上部署负载均衡层来实现 Doris 的高可用。
+当部署多个 FE 节点时，用户可以在多个 FE 之上部署负载均衡层来实现 DorisDB 的高可用。
 
 以下提供一些高可用的方案：
 
 ## 代码方式
 
-自己在应用层代码进行重试和负载均衡。比如发现一个连接挂掉，就自动在其他连接上进行重试。应用层代码重试需要应用自己配置多个doris前端节点地址。
+自己在应用层代码进行重试和负载均衡。比如发现一个连接挂掉，就自动在其他连接上进行重试。应用层代码重试需要应用自己配置多个DorisDB前端节点地址。
 
 ## JDBC Connector
 
-如果使用 mysql jdbc connector 来连接Doris，可以使用 jdbc 的自动重试机制:
+如果使用 mysql jdbc connector 来连接DorisDB，可以使用 jdbc 的自动重试机制:
 
 ~~~sql
 jdbc:mysql://[host:port],[host:port].../[database][?propertyName1][=propertyValue1][&propertyName2][=propertyValue2]...
@@ -20,7 +20,7 @@ jdbc:mysql://[host:port],[host:port].../[database][?propertyName1][=propertyValu
 
 ProxySQL 是一个灵活强大的 MySQL 代理层, 可以实现读写分离，支持 Query 路由、SQL Cache，动态加载配置、故障切换和 SQL 过滤等功能。
 
-Doris 的 FE 进程负责接收用户连接和查询请求，其本身是可以横向扩展且高可用的，但是需要用户在多个 FE 上架设一层 proxy，来实现自动的连接负载均衡。
+DorisDB 的 FE 进程负责接收用户连接和查询请求，其本身是可以横向扩展且高可用的，但是需要用户在多个 FE 上架设一层 proxy，来实现自动的连接负载均衡。
 
 ### 1. 安装相关依赖
 
@@ -44,7 +44,11 @@ rpm2cpio proxysql-2.0.14-1-centos7.x86_64.rpm | cpio -ivdm
 
 ~~~shell
 vim ./etc/proxysql.cnf 
-#修改为用户有权限访问的目录（绝对路径）
+~~~
+
+修改为用户有权限访问的目录（绝对路径）
+
+~~~vim
 datadir="/var/lib/proxysql"
 errorlog="/var/lib/proxysql/proxysql.log"
 ~~~

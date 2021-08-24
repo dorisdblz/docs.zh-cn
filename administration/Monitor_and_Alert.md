@@ -202,10 +202,10 @@ e.g. schema change 等，本来操作就少，“失败就报警”就可以了�
 
 如果仅仅需要将监控数据接入自有的Prometheus系统，可以通过下列接口访问：
 
-* FE:  fe\_host:fe\_http\_port/metrics
-* BE:  be\_host:be\_web\_server\_port/metrics
+* FE:  fe_host:fe_http_port/metrics
+* BE:  be_host:be_web_server_port/metrics
 
 如果需要JSON格式可以访问：
 
-* FE:  fe\_host:fe\_http\_port/metrics?type=json
-* BE:  be\_host:be\_web\_server\_port/metrics?type=json
+* FE:  fe_host:fe_http_port/metrics?type=json
+* BE:  be_host:be_web_server_port/metrics?type=json
