@@ -79,5 +79,5 @@ DorisDB可以满足企业级用户的多种分析需求，包括OLAP多维分析
   * 零售行业渠道人员分析
   * SAAS行业面向用户分析报表
   * dashbroad多页面分析
-* 统一分析
+* 统一分析 
   * 原有系统复杂，多维分析使用ClickHouse，高并发查询使用Durid，预计算使用Kylin，实时分析使用Impala+Kudu，Adhoc查询使用Presto，希望统一使用一套系统解决OLAP问题
